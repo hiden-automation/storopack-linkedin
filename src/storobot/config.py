@@ -22,13 +22,13 @@ FONT_FILE = ASSETS / "fonts" / "SourceSans3.ttf"
 
 SITE_URL = "https://www.storopack.com.br"
 
-CYCLE_DAYS = int(os.getenv("CYCLE_DAYS", "30"))
-POST_EVERY_DAYS = int(os.getenv("POST_EVERY_DAYS", "3"))
-N_POSTS = int(os.getenv("N_POSTS", "12"))
+CYCLE_DAYS = int(os.getenv("CYCLE_DAYS") or 30)
+POST_EVERY_DAYS = int(os.getenv("POST_EVERY_DAYS") or 3)
+N_POSTS = int(os.getenv("N_POSTS") or 12)
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
-GEMINI_TEXT_MODEL = os.getenv("GEMINI_TEXT_MODEL", "gemini-3.8-flash")
-GEMINI_IMAGE_MODEL = os.getenv("GEMINI_IMAGE_MODEL", "gemini-3.1-flash-image")
+GEMINI_TEXT_MODEL = os.getenv("GEMINI_TEXT_MODEL") or "gemini-3.8-flash"
+GEMINI_IMAGE_MODEL = os.getenv("GEMINI_IMAGE_MODEL") or "gemini-3.1-flash-image"
 
 LINKEDIN_ACCESS_TOKEN = os.getenv("LINKEDIN_ACCESS_TOKEN", "")
 LINKEDIN_PERSON_URN = os.getenv("LINKEDIN_PERSON_URN", "")
