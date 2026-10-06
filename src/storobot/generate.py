@@ -123,9 +123,9 @@ def run(force: bool = False, limit: int | None = None, retry_failed: bool = Fals
         return 0
 
     resuming = state.get("generation_status") == "in_progress"
-    elapsed = store.days_since(state.get("last_generation_at"))
+    elapsed = store.calendar_days_since(state.get("last_generation_at"))
     if not (force or resuming or elapsed is None or elapsed >= config.CYCLE_DAYS):
-        log.info("última geração há %.1f dias (< %d); nada a fazer", elapsed, config.CYCLE_DAYS)
+        log.info("última geração há %d dias (< %d); nada a fazer", elapsed, config.CYCLE_DAYS)
         return 0
 
     if resuming:

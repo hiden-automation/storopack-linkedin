@@ -38,10 +38,10 @@ def run(force: bool = False, dry_run: bool = False) -> int:
     state = store.load_state()
     posts = store.load_posts()
 
-    elapsed = store.days_since(state.get("last_post_at"))
-    # Margem de 1h para o atraso natural do cron do GitHub Actions não empurrar para o dia seguinte
-    if not force and elapsed is not None and elapsed < config.POST_EVERY_DAYS - 1 / 24:
-        log.info("último post há %.1f dias (< %d); nada a fazer", elapsed, config.POST_EVERY_DAYS)
+    # Conta dias de calendário: postou dia 6 em qualquer horário → próximo no dia 9
+    elapsed = store.calendar_days_since(state.get("last_post_at"))
+    if not force and elapsed is not None and elapsed < config.POST_EVERY_DAYS:
+        log.info("último post há %d dias (< %d); nada a fazer", elapsed, config.POST_EVERY_DAYS)
         return 0
 
     post = next_accepted(posts)

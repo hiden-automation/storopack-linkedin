@@ -1,10 +1,14 @@
 import json
 import os
 import tempfile
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from . import config
+
+
+# Brasil não tem horário de verão desde 2019
+BRT = timezone(timedelta(hours=-3))
 
 
 def now() -> datetime:
@@ -58,3 +62,11 @@ def days_since(value: str | None) -> float | None:
     if dt is None:
         return None
     return (now() - dt).total_seconds() / 86400
+
+
+def calendar_days_since(value: str | None) -> int | None:
+    """Dias de calendário (horário de Brasília) entre a data informada e hoje."""
+    dt = parse_iso(value)
+    if dt is None:
+        return None
+    return (now().astimezone(BRT).date() - dt.astimezone(BRT).date()).days
