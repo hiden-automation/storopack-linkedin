@@ -192,13 +192,12 @@ async function refreshNotifyButton() {
     btn.hidden = !(isIOS() && !isStandalone());
     return;
   }
-  btn.hidden = false;
   const reg = await navigator.serviceWorker.ready;
   const sub = await reg.pushManager.getSubscription();
-  const on = Boolean(sub) && Notification.permission === "granted";
-  btn.classList.toggle("active", on);
-  btn.title = on ? "Notificações ativadas" : "Ativar notificações";
-  btn.querySelector("span").textContent = on ? "Notificando" : "Notificações";
+  // Some depois de ativado: inscrição existe, permissão dada e já registrada no repositório
+  const registered =
+    sub && Notification.permission === "granted" && lsGet("storobot.pushRegistered", "") === sub.endpoint;
+  btn.hidden = Boolean(registered);
 }
 
 async function enableNotifications() {
@@ -226,6 +225,7 @@ async function enableNotifications() {
         applicationServerKey: urlBase64ToUint8Array(window.STOROBOT_CONFIG.vapidPublicKey),
       }));
     await dispatchWorkflow("subscribe.yml", { subscription: JSON.stringify(sub) });
+    lsSet("storobot.pushRegistered", sub.endpoint);
     toast("Notificações ativadas! Uma notificação de teste chega em cerca de 1 minuto.");
   } catch (err) {
     toast(`Não foi possível ativar as notificações: ${err.message}`, true);

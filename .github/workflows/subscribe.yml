@@ -20,7 +20,7 @@ jobs:
       PYTHONPATH: src
       SUBSCRIPTION: ${{ inputs.subscription }}
       VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
-      VAPID_SUBJECT: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
+      VAPID_SUBJECT: https://${{ github.repository_owner }}.github.io
     steps:
       - uses: actions/checkout@v4
         with:

@@ -87,7 +87,10 @@ def subscribe(raw: str) -> None:
     subs = [s for s in load_subscriptions() if s["endpoint"] != sub["endpoint"]]
     subs.append({"endpoint": sub["endpoint"], "keys": sub["keys"]})
     save_subscriptions(subs)
-    _send(sub, {"title": "Notificações ativadas", "body": "Você será avisado sobre novos posts e publicações.", "url": "./"})
+    try:
+        _send(sub, {"title": "Notificações ativadas", "body": "Você será avisado sobre novos posts e publicações.", "url": "./"})
+    except Exception:
+        log.exception("inscrição salva, mas a notificação de teste falhou")
     print(f"inscrição salva ({len(subs)} aparelho(s))")
 
 

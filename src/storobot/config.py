@@ -41,7 +41,9 @@ LINKEDIN_TOKEN_CREATED_AT = os.getenv("LINKEDIN_TOKEN_CREATED_AT", "")
 LINKEDIN_TOKEN_TTL_DAYS = 60
 
 VAPID_PRIVATE_KEY = os.getenv("VAPID_PRIVATE_KEY", "")
-VAPID_SUBJECT = os.getenv("VAPID_SUBJECT") or "https://github.com"
+# O "sub" do VAPID precisa ser mailto: ou só o domínio https (sem caminho)
+_subject = os.getenv("VAPID_SUBJECT") or "https://github.com"
+VAPID_SUBJECT = "/".join(_subject.split("/")[:3]) if _subject.startswith("https://") else _subject
 PUSH_SUBSCRIPTIONS_FILE = ROOT / "data" / "push_subscriptions.enc"
 
 # Identidade visual extraída do CSS de storopack.com.br

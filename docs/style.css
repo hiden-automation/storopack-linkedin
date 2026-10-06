@@ -35,7 +35,6 @@ button { font: inherit; cursor: pointer; }
 .icon-btn { display: inline-flex; align-items: center; gap: 6px; }
 .icon-btn[hidden] { display: none; }
 .icon-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.icon-btn.active { color: var(--blue); border-color: var(--blue); background: #e8f1fa; }
 .steps { padding-left: 20px; color: var(--text); }
 .steps li { margin-bottom: 8px; }
 
