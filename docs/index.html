@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Posts LinkedIn · Storopack</title>
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#0054a3">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Storopack Posts">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <img src="img/logo_storopack_header.png" alt="Storopack" class="logo">
+      <div class="top-actions">
+        <button id="install-btn" class="ghost icon-btn" type="button" title="Instalar app" aria-label="Instalar app" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg>
+          <span>Instalar</span>
+        </button>
+        <button id="notify-btn" class="ghost icon-btn" type="button" title="Ativar notificações" aria-label="Ativar notificações" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15L6 16Zm4 4h4"/></svg>
+          <span>Notificações</span>
+        </button>
+        <button id="settings-btn" class="ghost" type="button">Acesso</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 class="page-title">Aprovação de posts</h1>
+
+    <section class="summary" id="summary"></section>
+    <p class="next-cycle" id="next-cycle"></p>
+
+    <nav class="tabs" id="tabs" aria-label="Filtrar por status"></nav>
+
+    <p id="empty" class="empty" hidden></p>
+    <section class="grid" id="grid"></section>
+  </main>
+
+  <dialog id="settings">
+    <form method="dialog" id="settings-form">
+      <h2>Acesso ao GitHub</h2>
+      <p>Os botões Aceitar/Recusar disparam o workflow <code>set-status.yml</code> no repositório.
+        Crie um <strong>fine-grained personal access token</strong> com acesso apenas a este repositório e
+        permissão <em>Actions: Read and write</em>. O token fica salvo só neste navegador.</p>
+      <label>Repositório (dono/nome)
+        <input id="repo-input" placeholder="usuario/storopack" required>
+      </label>
+      <label>Token
+        <input id="token-input" type="password" placeholder="github_pat_..." autocomplete="off" required>
+      </label>
+      <div class="dialog-actions">
+        <button value="cancel" formnovalidate class="ghost" type="submit">Cancelar</button>
+        <button value="save" class="primary" type="submit">Salvar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="ios-install">
+    <form method="dialog">
+      <h2>Instalar no iPhone</h2>
+      <ol class="steps">
+        <li>No Safari, toque em <strong>Compartilhar</strong> (quadrado com seta para cima).</li>
+        <li>Escolha <strong>Adicionar à Tela de Início</strong>.</li>
+        <li>Abra o app pelo ícone da Storopack. As notificações só funcionam no iPhone a partir do app instalado.</li>
+      </ol>
+      <div class="dialog-actions">
+        <button value="ok" class="primary" type="submit">Entendi</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
