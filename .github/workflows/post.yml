@@ -2,11 +2,13 @@ name: Publicar no LinkedIn (a cada 3 dias)
 
 on:
   schedule:
-    - cron: "0 13 * * *" # diário 10:00 BRT; o script só posta se já passaram 3 dias
+    # Seg–sex às 10:00 e 14:00 BRT (a das 14h é reserva caso a das 10h atrase/falhe).
+    # O script só posta se já passaram 3 dias e se está na janela 8h–18h de dia útil.
+    - cron: "0 13,17 * * 1-5"
   workflow_dispatch:
     inputs:
       force:
-        description: "Ignorar o intervalo de 3 dias e publicar o próximo aceito agora"
+        description: "Ignorar o intervalo de 3 dias e a janela de horário e publicar o próximo aceito agora"
         type: boolean
         default: false
 
@@ -39,6 +41,9 @@ jobs:
           LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
           LINKEDIN_PERSON_URN: ${{ secrets.LINKEDIN_PERSON_URN }}
           LINKEDIN_TOKEN_CREATED_AT: ${{ vars.LINKEDIN_TOKEN_CREATED_AT }}
+          POST_WINDOW_START: ${{ vars.POST_WINDOW_START }}
+          POST_WINDOW_END: ${{ vars.POST_WINDOW_END }}
+          POST_ON_WEEKENDS: ${{ vars.POST_ON_WEEKENDS }}
           TOKEN_WARNING_FILE: ${{ runner.temp }}/token_warning
           VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
           VAPID_SUBJECT: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/

@@ -249,6 +249,21 @@ const fmtDate = (d) =>
   d.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" });
 const addDays = (iso, days) => new Date(new Date(iso).getTime() + days * 86400000);
 
+// Mesma regra do post.py: 3 dias de calendário, só dias úteis, entre 8h e 18h (Brasília)
+function brtDate(d) {
+  const p = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit" }).format(d);
+  return new Date(`${p}T12:00:00-03:00`);
+}
+function nextPostLabel(lastIso) {
+  const today = brtDate(new Date());
+  const hour = Number(new Intl.DateTimeFormat("en-US", { timeZone: "America/Sao_Paulo", hour: "numeric", hourCycle: "h23" }).format(new Date()));
+  let day = addDays(brtDate(new Date(lastIso)).toISOString(), POST_EVERY_DAYS);
+  if (day < today) day = today;
+  if (day.getTime() === today.getTime() && hour >= 18) day = addDays(today.toISOString(), 1);
+  while ([0, 6].includes(day.getUTCDay())) day = addDays(day.toISOString(), 1);
+  return day.getTime() === today.getTime() ? "Hoje" : fmtDate(day);
+}
+
 function queue() {
   return posts
     .filter((p) => effectiveStatus(p).status === "accepted")
@@ -260,8 +275,7 @@ function renderSummary() {
   const pending = posts.filter((p) => effectiveStatus(p).status === "pending").length;
   let nextPost = "0";
   if (q.length) {
-    const when = state.last_post_at ? addDays(state.last_post_at, POST_EVERY_DAYS) : new Date();
-    nextPost = when <= new Date() ? "Na próxima execução" : fmtDate(when);
+    nextPost = state.last_post_at ? nextPostLabel(state.last_post_at) : "Na próxima verificação";
   }
   const nextCycle = state.last_generation_at
     ? fmtDate(addDays(state.last_generation_at, CYCLE_DAYS))

@@ -26,6 +26,11 @@ CYCLE_DAYS = int(os.getenv("CYCLE_DAYS") or 30)
 POST_EVERY_DAYS = int(os.getenv("POST_EVERY_DAYS") or 3)
 N_POSTS = int(os.getenv("N_POSTS") or 12)
 
+# Janela de publicação (horário de Brasília): só posta de segunda a sexta, das 8h às 18h
+POST_WINDOW_START = int(os.getenv("POST_WINDOW_START") or 8)
+POST_WINDOW_END = int(os.getenv("POST_WINDOW_END") or 18)
+POST_ON_WEEKENDS = (os.getenv("POST_ON_WEEKENDS") or "false").lower() == "true"
+
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 GEMINI_TEXT_MODEL = os.getenv("GEMINI_TEXT_MODEL") or "gemini-3.8-flash"
 GEMINI_IMAGE_MODEL = os.getenv("GEMINI_IMAGE_MODEL") or "gemini-3.1-flash-image"

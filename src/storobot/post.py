@@ -33,8 +33,23 @@ def token_warning() -> None:
             f.write(f"{max(remaining, 0):.0f}")
 
 
+def outside_window() -> str | None:
+    """Motivo para não publicar agora, ou None se está dentro da janela."""
+    local = store.now().astimezone(store.BRT)
+    if not config.POST_ON_WEEKENDS and local.weekday() >= 5:
+        return "fim de semana"
+    if not config.POST_WINDOW_START <= local.hour < config.POST_WINDOW_END:
+        return f"fora da janela {config.POST_WINDOW_START}h–{config.POST_WINDOW_END}h ({local:%H:%M})"
+    return None
+
+
 def run(force: bool = False, dry_run: bool = False) -> int:
     token_warning()
+    reason = outside_window()
+    if not force and reason:
+        log.info("%s; aguardando a próxima verificação", reason)
+        return 0
+
     state = store.load_state()
     posts = store.load_posts()
 
@@ -76,7 +91,7 @@ def run(force: bool = False, dry_run: bool = False) -> int:
 def main() -> None:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--force", action="store_true", help="ignora o intervalo de 3 dias")
+    parser.add_argument("--force", action="store_true", help="ignora o intervalo de 3 dias e a janela de horário")
     parser.add_argument("--dry-run", action="store_true", help="mostra o texto sem publicar")
     args = parser.parse_args()
     sys.exit(run(force=args.force, dry_run=args.dry_run))

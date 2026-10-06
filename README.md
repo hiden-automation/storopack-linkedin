@@ -5,7 +5,7 @@ Automação 100% em **GitHub Actions + GitHub Pages**:
 | Workflow | Quando | O que faz |
 |---|---|---|
 | `generate.yml` | todo dia 08:00 BRT, mas só age a cada **30 dias** | Lê storopack.com.br → Gemini cria plano de 12 temas → copy de cada post → imagem (ilustração IA + título + logo original) |
-| `post.yml` | todo dia 10:00 BRT, mas só age a cada **3 dias** | Publica no perfil pessoal do LinkedIn o próximo post **aceito** |
+| `post.yml` | seg–sex às 10:00 e 14:00 BRT, mas só age a cada **3 dias** | Publica no perfil pessoal do LinkedIn o próximo post **aceito** (só em dias úteis, das 8h às 18h) |
 | `set-status.yml` | disparado pelos botões da página | Muda o status do post; ao aceitar, chama o `post.yml` (publica na hora se já passaram 3 dias) |
 | `subscribe.yml` | disparado pelo botão de notificações | Cadastra o aparelho para receber notificações push |
 | `pages.yml` | após cada workflow acima | Publica a página de aprovação (`docs/`) |
@@ -87,6 +87,8 @@ cache/              resumo do site usado como contexto pelo Gemini
 ```
 
 ## Observações
-- O cron do GitHub pode atrasar alguns minutos; o intervalo de 3/30 dias é garantido pelas datas em `state.json`.
+- Intervalos contam **dias de calendário** no horário de Brasília (postou dia 6 → próximo dia 9). Se o dia cair no fim de semana, publica na segunda.
+- Janela de publicação: dias úteis, 8h–18h (ajustável pelas Variables `POST_WINDOW_START`, `POST_WINDOW_END`, `POST_ON_WEEKENDS`). Um aceite fora da janela espera a próxima verificação; `force` ignora a janela.
+- O cron do GitHub pode atrasar; a verificação das 14h é reserva da das 10h.
 - O GitHub desativa crons após 60 dias sem atividade no repositório; os commits automáticos do bot evitam isso.
 - Logo e título são desenhados por código (Pillow) sobre a ilustração da IA, garantindo o logo original e o texto sem erros.
