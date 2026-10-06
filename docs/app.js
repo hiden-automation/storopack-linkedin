@@ -2,7 +2,7 @@
 
 const CYCLE_DAYS = 30;
 const POST_EVERY_DAYS = 3;
-const OVERRIDE_TTL_MS = 15 * 60 * 1000;
+const OVERRIDE_TTL_MS = 30 * 60 * 1000;
 const POLL_MS = 20 * 1000;
 
 const STATUS_LABEL = {

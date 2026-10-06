@@ -1,7 +1,6 @@
 name: Publicar página
 
 on:
-  workflow_call:
   workflow_dispatch:
   push:
     branches: [main]
@@ -12,6 +11,7 @@ permissions:
   pages: write
   id-token: write
 
+# Só um deploy por vez; se chegarem vários, o mais recente substitui os que estão esperando
 concurrency:
   group: pages
   cancel-in-progress: false
