@@ -16,9 +16,9 @@
     ],
     "image_prompt": "A professional, realistic photograph of a modern packaging workstation in an industrial fulfillment center. An open cardboard shipping box rests on a wooden packing table, neatly cushioned inside with paper-textured air cushion pillows securing products. Clean and organized warehouse background with soft industrial lighting and shallow depth of field focusing on the innovative packaging material inside the parcel. No close-up of people, no visible text, letters, numbers, brand names, or logos.",
     "image_path": "images/001-01.png",
-    "status": "pending",
+    "status": "rejected",
     "created_at": "2026-10-06T16:52:31+00:00",
-    "decided_at": null,
+    "decided_at": "2026-10-06T19:11:20+00:00",
     "posted_at": null,
     "linkedin_urn": null,
     "error": null
