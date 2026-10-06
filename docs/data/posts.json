@@ -40,9 +40,9 @@
     ],
     "image_prompt": "A modern, bright e-commerce packaging workstation featuring an open brown cardboard box. Inside the box, elegant delicate cosmetic containers are carefully protected and cushioned using structured embossed kraft paper bubble sheets. Clean, organized wooden packing table setting with soft warm lighting, shallow depth of field, commercial lifestyle product photography, with no human faces, no visible text, no letters, no numbers, and no logos or brand names.",
     "image_path": "images/001-02.png",
-    "status": "pending",
+    "status": "accepted",
     "created_at": "2026-10-06T16:52:31+00:00",
-    "decided_at": null,
+    "decided_at": "2026-10-06T19:11:53+00:00",
     "posted_at": null,
     "linkedin_urn": null,
     "error": null
