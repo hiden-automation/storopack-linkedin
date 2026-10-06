@@ -157,9 +157,9 @@
     ],
     "image_prompt": "A professional industrial packaging scene in a modern logistics warehouse. In the center, an open heavy-duty corrugated carton box reveals a heavy metal automotive mechanical component safely cushioned with custom expanding foam packaging and sturdy crumpled brown kraft paper pads. The background shows an organized packaging station and blurred conveyor line. Clean industrial photography, sharp focus on the protective materials, dynamic lighting, no people in close up, strictly no text, no letters, no numbers, no logos, no brand marks.",
     "image_path": "images/001-07.png",
-    "status": "pending",
+    "status": "rejected",
     "created_at": "2026-10-06T16:52:31+00:00",
-    "decided_at": null,
+    "decided_at": "2026-10-06T19:16:02+00:00",
     "posted_at": null,
     "linkedin_urn": null,
     "error": null
