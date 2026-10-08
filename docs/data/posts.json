@@ -86,9 +86,9 @@
     ],
     "image_prompt": "A professional, high-end photograph of a modern, eco-friendly packaging workstation inside a brightly lit distribution center, embodying sustainable PPWR compliance. In the foreground, an open, unprinted brown corrugated cardboard box rests on a stainless steel roller conveyor table. Inside the box, a product is securely protected exclusively using one single protective void-fill material: inflated pure white paper air cushions (AIRfiber). The cushions are strictly matte white paper air pillows, cleanly sealed and puffed with air, with absolutely no plastic film, no brown kraft paper, no foam, and no mixed packaging materials anywhere. The background reveals an organized, state-of-the-art warehouse environment with soft industrial lighting and shallow depth of field. Clean commercial photography, realistic textures of paper and cardboard, no people in the frame, and strictly no text, no letters, no numbers, and no logos on any surface.",
     "image_path": "images/001-04.png",
-    "status": "pending",
+    "status": "rejected",
     "created_at": "2026-10-06T16:52:31+00:00",
-    "decided_at": null,
+    "decided_at": "2026-10-08T18:48:41+00:00",
     "posted_at": null,
     "linkedin_urn": null,
     "error": null
