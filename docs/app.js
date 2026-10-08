@@ -187,6 +187,18 @@ function urlBase64ToUint8Array(base64) {
   return Uint8Array.from(atob(padded), (c) => c.charCodeAt(0));
 }
 
+async function subscribeDevice() {
+  const reg = await navigator.serviceWorker.ready;
+  const sub =
+    (await reg.pushManager.getSubscription()) ||
+    (await reg.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(window.STOROBOT_CONFIG.vapidPublicKey),
+    }));
+  await dispatchWorkflow("subscribe.yml", { subscription: JSON.stringify(sub) });
+  lsSet("storobot.pushRegistered", sub.endpoint);
+}
+
 async function refreshNotifyButton() {
   const btn = $("#notify-btn");
   if (!pushSupported()) {
@@ -196,10 +208,20 @@ async function refreshNotifyButton() {
   }
   const reg = await navigator.serviceWorker.ready;
   const sub = await reg.pushManager.getSubscription();
+  const registered = sub && lsGet("storobot.pushRegistered", "") === sub.endpoint;
+  if (Notification.permission === "granted" && !registered && settings().token) {
+    // Autorreparo: o celular trocou/cancelou a inscrição (reinstalação, limpeza de dados etc.).
+    // Como a permissão já foi dada, registra de novo em silêncio.
+    try {
+      await subscribeDevice();
+      btn.hidden = true;
+      return;
+    } catch (err) {
+      console.warn("Reinscrição automática falhou:", err);
+    }
+  }
   // Some depois de ativado: inscrição existe, permissão dada e já registrada no repositório
-  const registered =
-    sub && Notification.permission === "granted" && lsGet("storobot.pushRegistered", "") === sub.endpoint;
-  btn.hidden = Boolean(registered);
+  btn.hidden = Boolean(registered && Notification.permission === "granted");
 }
 
 async function enableNotifications() {
@@ -219,15 +241,7 @@ async function enableNotifications() {
       toast("Permissão de notificação não concedida.", true);
       return;
     }
-    const reg = await navigator.serviceWorker.ready;
-    const sub =
-      (await reg.pushManager.getSubscription()) ||
-      (await reg.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(window.STOROBOT_CONFIG.vapidPublicKey),
-      }));
-    await dispatchWorkflow("subscribe.yml", { subscription: JSON.stringify(sub) });
-    lsSet("storobot.pushRegistered", sub.endpoint);
+    await subscribeDevice();
     toast("Notificações ativadas! Uma notificação de teste chega em cerca de 1 minuto.");
   } catch (err) {
     toast(`Não foi possível ativar as notificações: ${err.message}`, true);
