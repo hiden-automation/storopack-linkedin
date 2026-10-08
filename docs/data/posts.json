@@ -228,9 +228,9 @@
     ],
     "image_prompt": "A realistic and professional photograph of an open corrugated cardboard box on a clean, stainless steel packing workstation in a modern pharmaceutical distribution warehouse. Inside the open box, several unlabelled amber glass medicine syrup bottles and blank white medicine carton boxes are safely cushioned and securely nestled exclusively using a single type of protective packaging material: pure white inflated paper air cushions, with no other void fill or packaging materials mixed in. The background features a brightly lit, organized, and clean logistics fulfillment facility with soft, shallow depth of field. Completely devoid of any text, letters, numbers, symbols, barcodes, or brand logos on the bottles, packaging boxes, paper cushions, and surroundings.",
     "image_path": "images/001-10.png",
-    "status": "pending",
+    "status": "accepted",
     "created_at": "2026-10-06T16:52:31+00:00",
-    "decided_at": null,
+    "decided_at": "2026-10-08T18:50:59+00:00",
     "posted_at": null,
     "linkedin_urn": null,
     "error": null
