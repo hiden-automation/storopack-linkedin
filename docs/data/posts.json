@@ -133,9 +133,9 @@
     ],
     "image_prompt": "A realistic, professional photograph of an ergonomic packaging workstation inside a modern logistics distribution center. On a clean metal roller conveyor, an open corrugated cardboard box holds a precision mechanical metal valve securely blocked and cushioned. The sole protective packaging material inside the box consists entirely of thick, crimped natural brown kraft paper pads, tightly folded and wedged around the product to achieve firm blocking and void fill. No other packaging types, air cushions, plastics, or foams are present. In the softly blurred background, an automated paper dispensing machine and orderly warehouse shelving are visible under crisp, balanced industrial overhead lighting. All surfaces, packaging materials, and machinery are completely blank, featuring absolutely no text, numbers, letters, barcodes, or logos.",
     "image_path": "images/001-06.png",
-    "status": "pending",
+    "status": "rejected",
     "created_at": "2026-10-06T16:52:31+00:00",
-    "decided_at": null,
+    "decided_at": "2026-10-08T18:47:43+00:00",
     "posted_at": null,
     "linkedin_urn": null,
     "error": null
