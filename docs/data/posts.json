@@ -275,9 +275,9 @@
     ],
     "image_prompt": "A sharp, realistic commercial photograph from a high-angle perspective looking into an open corrugated cardboard box at a modern logistics packing station. Inside the carton, unbranded plain metallic food cans and generic smooth dry food boxes are securely stabilized and protected. The sole cushioning material inside the box is thick, embossed crumpled natural brown kraft paper padding, neatly layered around and between the non-perishable food containers for void fill and shock absorption, with no other packing materials present. In the softly blurred background, a tidy stainless steel packaging bench, roller conveyor track, and warehouse ambient light are visible. Professional crisp lighting, shallow depth of field, strictly devoid of people, and completely free of any text, numbers, labels, or brand logos.",
     "image_path": "images/001-12.png",
-    "status": "pending",
+    "status": "accepted",
     "created_at": "2026-10-06T16:52:31+00:00",
-    "decided_at": null,
+    "decided_at": "2026-10-08T18:52:11+00:00",
     "posted_at": null,
     "linkedin_urn": null,
     "error": null
