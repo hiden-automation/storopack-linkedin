@@ -1,12 +1,14 @@
-name: Gerar posts (a cada 30 dias)
+name: Gerar posts (quando a fila acaba)
 
 on:
   schedule:
-    - cron: "0 11 * * *" # diário 08:00 BRT; o script só gera se já passaram 30 dias
+    # Diário 08:00 BRT como garantia; também é disparado após cada aceite/recusa/publicação.
+    # Só gera se houver até 3 aceitos e nenhum aguardando aprovação.
+    - cron: "0 11 * * *"
   workflow_dispatch:
     inputs:
       mode:
-        description: "normal = respeita os 30 dias | force = gera novo ciclo agora | retry-failed = refaz posts com falha"
+        description: "normal = só gera se a fila estiver acabando | force = gera 12 agora | retry-failed = refaz posts com falha"
         type: choice
         options: [normal, force, retry-failed]
         default: normal
@@ -38,6 +40,8 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_TEXT_MODEL: ${{ vars.GEMINI_TEXT_MODEL }}
           GEMINI_IMAGE_MODEL: ${{ vars.GEMINI_IMAGE_MODEL }}
+          N_POSTS: ${{ vars.N_POSTS }}
+          REFILL_MAX_ACCEPTED: ${{ vars.REFILL_MAX_ACCEPTED }}
           VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
           VAPID_SUBJECT: https://${{ github.repository_owner }}.github.io
         run: |
@@ -48,8 +52,11 @@ jobs:
           esac
       - name: Salvar no repositório
         if: always()
+        env:
+          PYTHONPATH: src
         run: |
-          bash scripts/commit_push.sh "posts: geração de conteúdo"
+          python -m storobot.sync save
+          bash scripts/commit_push.sh "posts: geração de conteúdo" 'python -m storobot.sync merge'
       - name: Atualizar painel
         if: always()
         env:

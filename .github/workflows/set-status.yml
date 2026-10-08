@@ -39,11 +39,15 @@ jobs:
         run: |
           bash scripts/commit_push.sh "post $POST_ID -> $STATUS" 'python -m storobot.set_status "$POST_ID" "$STATUS"'
       - name: Publicar já, se estiver na hora
-        # O post.yml só publica se já passaram 3 dias desde o último post
+        # O post.yml só publica se for seg/qua/sex entre 9h e 12h e ainda não houve post hoje
         if: inputs.status == 'accepted'
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh workflow run post.yml --ref main
+      - name: Repor posts se a fila estiver acabando
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run generate.yml --ref main
       - name: Atualizar painel
         env:
           GH_TOKEN: ${{ github.token }}

@@ -4,9 +4,9 @@ Automação 100% em **GitHub Actions + GitHub Pages**:
 
 | Workflow | Quando | O que faz |
 |---|---|---|
-| `generate.yml` | todo dia 08:00 BRT, mas só age a cada **30 dias** | Lê storopack.com.br → Gemini cria plano de 12 temas → copy de cada post → imagem (ilustração IA + título + logo original) |
-| `post.yml` | seg–sex às 10:00 e 14:00 BRT, mas só age a cada **3 dias** | Publica no perfil pessoal do LinkedIn o próximo post **aceito** (só em dias úteis, das 8h às 18h) |
-| `set-status.yml` | disparado pelos botões da página | Muda o status do post; ao aceitar, chama o `post.yml` (publica na hora se já passaram 3 dias) |
+| `generate.yml` | diário 08:00 BRT e após cada aceite/recusa/publicação; só age quando há **3 ou menos aceitos e nenhum aguardando aprovação** | Lê storopack.com.br → Gemini cria plano de 12 temas → copy de cada post → imagem (ilustração IA verificada + título + logo original) |
+| `post.yml` | **segunda, quarta e sexta** às 10:00 (e 11:00 de reserva) BRT | Publica no perfil pessoal do LinkedIn o próximo post **aceito** (no máximo um por dia, entre 9h e 12h) |
+| `set-status.yml` | disparado pelos botões da página | Muda o status do post; ao aceitar, chama o `post.yml` (publica na hora se for dia/horário de post e ainda não houve post hoje) e o `generate.yml` |
 | `subscribe.yml` | disparado pelo botão de notificações | Cadastra o aparelho para receber notificações push |
 | `pages.yml` | após cada workflow acima | Publica a página de aprovação (`docs/`) |
 
@@ -56,7 +56,7 @@ Status de um post: `generating → pending → accepted | rejected → posted` (
   ```
 
 ### 6. Primeira execução
-**Actions → Gerar posts → Run workflow → mode: force**. Em seguida aprove os posts no painel: o primeiro aceito é publicado na hora (não há post anterior), e os seguintes a cada 3 dias.
+**Actions → Gerar posts → Run workflow → mode: force**. Em seguida aprove os posts no painel: os aceitos são publicados na segunda, quarta e sexta, por volta das 10h.
 
 ## Uso no dia a dia
 - Aprovar/recusar posts na página.
@@ -87,8 +87,10 @@ cache/              resumo do site usado como contexto pelo Gemini
 ```
 
 ## Observações
-- Intervalos contam **dias de calendário** no horário de Brasília (postou dia 6 → próximo dia 9). Se o dia cair no fim de semana, publica na segunda.
-- Janela de publicação: dias úteis, 8h–18h (ajustável pelas Variables `POST_WINDOW_START`, `POST_WINDOW_END`, `POST_ON_WEEKENDS`). Um aceite fora da janela espera a próxima verificação; `force` ignora a janela.
+- Publicação: segunda, quarta e sexta, entre 9h e 12h de Brasília, no máximo um post por dia (Variables `POST_WEEKDAYS` = `0,2,4`, `POST_WINDOW_START`, `POST_WINDOW_END`). Um aceite fora do horário espera o próximo dia de post; `force` ignora as regras.
+- Reposição: gera mais `N_POSTS` (12) sempre que houver até `REFILL_MAX_ACCEPTED` (3) aceitos e nenhum aguardando aprovação.
+- Regras de imagem da Storopack: um único tipo de enchimento por caixa e almofadas de papel sempre brancas. Vão no prompt e cada imagem é verificada pelo Gemini antes de entrar no painel (até 3 tentativas; se todas falharem, o post fica como `failed`).
+- Gerar e publicar fazem merge por post/campo com o que mudou no repositório durante a execução (`storobot.sync`), então aprovações feitas nesse meio-tempo não se perdem.
 - O cron do GitHub pode atrasar; a verificação das 14h é reserva da das 10h.
 - O GitHub desativa crons após 60 dias sem atividade no repositório; os commits automáticos do bot evitam isso.
 - Logo e título são desenhados por código (Pillow) sobre a ilustração da IA, garantindo o logo original e o texto sem erros.

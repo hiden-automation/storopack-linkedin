@@ -57,6 +57,26 @@ def generate_json(prompt: str, schema: type[T], system: str | None = None) -> T:
     return _retry(call)
 
 
+def judge_image(image: Image.Image, question: str, schema: type[T]) -> T:
+    """Pede ao modelo de texto (multimodal) para avaliar uma imagem e responder em JSON."""
+
+    def call():
+        buf = io.BytesIO()
+        image.save(buf, "JPEG", quality=85)
+        resp = client().models.generate_content(
+            model=config.GEMINI_TEXT_MODEL,
+            contents=[types.Part.from_bytes(data=buf.getvalue(), mime_type="image/jpeg"), question],
+            config=types.GenerateContentConfig(
+                response_mime_type="application/json", response_schema=schema, temperature=0
+            ),
+        )
+        if resp.parsed is None:
+            raise ValueError("verificação da imagem sem JSON válido")
+        return resp.parsed
+
+    return _retry(call)
+
+
 def generate_image(prompt: str, aspect_ratio: str = "4:5") -> Image.Image:
     def call():
         resp = client().models.generate_content(

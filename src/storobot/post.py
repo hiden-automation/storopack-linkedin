@@ -1,4 +1,4 @@
-"""Worker 2: a cada 3 dias publica no LinkedIn o próximo post aceito."""
+"""Worker 2: segunda, quarta e sexta, por volta das 10h, publica no LinkedIn o próximo post aceito."""
 
 import argparse
 import logging
@@ -33,11 +33,14 @@ def token_warning() -> None:
             f.write(f"{max(remaining, 0):.0f}")
 
 
+WEEKDAY_NAMES = ["segunda", "terça", "quarta", "quinta", "sexta", "sábado", "domingo"]
+
+
 def outside_window() -> str | None:
     """Motivo para não publicar agora, ou None se está dentro da janela."""
     local = store.now().astimezone(store.BRT)
-    if not config.POST_ON_WEEKENDS and local.weekday() >= 5:
-        return "fim de semana"
+    if local.weekday() not in config.POST_WEEKDAYS:
+        return f"{WEEKDAY_NAMES[local.weekday()]} não é dia de publicação"
     if not config.POST_WINDOW_START <= local.hour < config.POST_WINDOW_END:
         return f"fora da janela {config.POST_WINDOW_START}h–{config.POST_WINDOW_END}h ({local:%H:%M})"
     return None
@@ -53,10 +56,9 @@ def run(force: bool = False, dry_run: bool = False) -> int:
     state = store.load_state()
     posts = store.load_posts()
 
-    # Conta dias de calendário: postou dia 6 em qualquer horário → próximo no dia 9
-    elapsed = store.calendar_days_since(state.get("last_post_at"))
-    if not force and elapsed is not None and elapsed < config.POST_EVERY_DAYS:
-        log.info("último post há %d dias (< %d); nada a fazer", elapsed, config.POST_EVERY_DAYS)
+    # No máximo um post por dia
+    if not force and store.calendar_days_since(state.get("last_post_at")) == 0:
+        log.info("já houve publicação hoje; nada a fazer")
         return 0
 
     post = next_accepted(posts)
@@ -91,7 +93,7 @@ def run(force: bool = False, dry_run: bool = False) -> int:
 def main() -> None:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--force", action="store_true", help="ignora o intervalo de 3 dias e a janela de horário")
+    parser.add_argument("--force", action="store_true", help="ignora o dia/horário de publicação e o limite de um post por dia")
     parser.add_argument("--dry-run", action="store_true", help="mostra o texto sem publicar")
     args = parser.parse_args()
     sys.exit(run(force=args.force, dry_run=args.dry_run))

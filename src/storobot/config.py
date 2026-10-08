@@ -22,14 +22,15 @@ FONT_FILE = ASSETS / "fonts" / "SourceSans3.ttf"
 
 SITE_URL = "https://www.storopack.com.br"
 
-CYCLE_DAYS = int(os.getenv("CYCLE_DAYS") or 30)
-POST_EVERY_DAYS = int(os.getenv("POST_EVERY_DAYS") or 3)
 N_POSTS = int(os.getenv("N_POSTS") or 12)
+# Gera mais N_POSTS quando há até esta quantidade de aceitos e nenhum aguardando aprovação
+REFILL_MAX_ACCEPTED = int(os.getenv("REFILL_MAX_ACCEPTED") or 3)
 
-# Janela de publicação (horário de Brasília): só posta de segunda a sexta, das 8h às 18h
-POST_WINDOW_START = int(os.getenv("POST_WINDOW_START") or 8)
-POST_WINDOW_END = int(os.getenv("POST_WINDOW_END") or 18)
-POST_ON_WEEKENDS = (os.getenv("POST_ON_WEEKENDS") or "false").lower() == "true"
+# Publicação (horário de Brasília): segunda, quarta e sexta, por volta das 10h
+# Dias: 0=segunda … 6=domingo. A janela cobre atrasos do agendador do GitHub.
+POST_WEEKDAYS = [int(d) for d in (os.getenv("POST_WEEKDAYS") or "0,2,4").split(",")]
+POST_WINDOW_START = int(os.getenv("POST_WINDOW_START") or 9)
+POST_WINDOW_END = int(os.getenv("POST_WINDOW_END") or 12)
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 GEMINI_TEXT_MODEL = os.getenv("GEMINI_TEXT_MODEL") or "gemini-3.8-flash"

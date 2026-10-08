@@ -1,5 +1,5 @@
 // Service worker do painel: funciona offline (rede primeiro, cache como reserva) e recebe notificações push.
-const CACHE = "storobot-v2";
+const CACHE = "storobot-v3";
 const SHELL = [
   "./",
   "index.html",

@@ -1,4 +1,4 @@
-"""Worker 1: a cada 30 dias gera plano (12 temas) → copy → imagem de cada post."""
+"""Worker 1: quando a fila está acabando, gera plano (12 temas) → copy → imagem de cada post."""
 
 import argparse
 import logging
@@ -17,6 +17,21 @@ espuma FOAMplus, automação de embalagem e soluções sustentáveis). Os posts 
 PESSOAL do vendedor, não na página da empresa: escreva em primeira pessoa, tom profissional, próximo e \
 consultivo, em português do Brasil. Use SOMENTE fatos, produtos, números e certificações presentes no \
 contexto do site fornecido; nunca invente dados, clientes, preços ou estatísticas."""
+
+
+# Regras da Storopack para as imagens (vão no prompt e na verificação automática)
+PRODUCT_RULES_PT = (
+    "cada caixa deve conter UM ÚNICO tipo de material de enchimento/proteção (nunca misture, por exemplo, "
+    "almofadas de ar com papel, ou espuma com papel); almofadas e enchimentos de papel são SEMPRE BRANCOS, "
+    "nunca papel pardo/kraft/marrom. Descreva explicitamente na cena qual é o único material e, se for papel, "
+    "que é papel branco."
+)
+PRODUCT_RULES_EN = (
+    "Every box must contain ONLY ONE type of protective filling material - never mix materials in the same "
+    "box (e.g. no air cushions together with paper, no foam together with paper). Any paper cushions or paper "
+    "void fill must be PURE BRIGHT WHITE paper - never brown, kraft, beige or colored paper. Cardboard boxes "
+    "themselves may be regular brown corrugated cardboard."
+)
 
 
 class PlanItem(BaseModel):
@@ -65,6 +80,7 @@ Regras da legenda:
 Regras do image_prompt: cena realista e profissional relacionada ao assunto (ex.: centro de \
 distribuição, produto sendo protegido dentro de caixa, linha de embalagem), sem pessoas em close, \
 SEM nenhum texto, letra, número, logotipo ou marca visível.
+REGRAS DE PRODUTO (obrigatórias): {PRODUCT_RULES_PT}
 
 === CONTEXTO DO SITE ===
 {site}"""
@@ -75,12 +91,41 @@ def _image_prompt(scene: str) -> str:
         f"{scene}. Professional high-quality commercial photograph, clean modern industrial and logistics "
         "aesthetic, soft natural lighting, shallow depth of field, color palette dominated by corporate blue "
         "(#0054A3) and white tones. Absolutely no text, no letters, no numbers, no logos, no brand names, "
-        "no watermarks, no labels on boxes."
+        f"no watermarks, no labels on boxes. STRICT PRODUCT RULES: {PRODUCT_RULES_EN}"
     )
 
 
+class ImageCheck(BaseModel):
+    mixed_fillings: bool = Field(description="Alguma caixa tem mais de um tipo de material de enchimento misturado")
+    non_white_paper_cushions: bool = Field(description="Há almofada/enchimento de papel que não é branco")
+    text_or_logo: bool = Field(description="Há texto legível, letras, números ou logotipos")
+    explanation: str = Field(description="Explicação curta do que foi observado")
+
+
+CHECK_QUESTION = """Você é um revisor de imagens de uma fabricante de embalagens de proteção. Analise com \
+atenção TODAS as caixas visíveis e responda:
+- mixed_fillings: true se qualquer caixa contém mais de um tipo de material de enchimento ao mesmo tempo \
+(ex.: almofadas de ar junto com papel, espuma junto com papel, plástico bolha junto com papel).
+- non_white_paper_cushions: true se existe qualquer almofada ou enchimento de papel que NÃO seja branco \
+(papel pardo, kraft, marrom, bege, colorido).
+- text_or_logo: true se há texto legível, letras, números ou logotipos.
+Caixas de papelão pardo são normais e não contam como enchimento."""
+
+MAX_IMAGE_ATTEMPTS = 3
+
+
 def _make_image(post: dict) -> None:
-    background = gemini.generate_image(_image_prompt(post["image_prompt"]))
+    """Gera a ilustração e só aceita se passar na verificação das regras de produto."""
+    problems = ""
+    for attempt in range(1, MAX_IMAGE_ATTEMPTS + 1):
+        background = gemini.generate_image(_image_prompt(post["image_prompt"]))
+        check = gemini.judge_image(background, CHECK_QUESTION, ImageCheck)
+        if not (check.mixed_fillings or check.non_white_paper_cushions or check.text_or_logo):
+            break
+        problems = check.explanation
+        log.warning("imagem de %s reprovada (tentativa %d): %s", post["id"], attempt, problems)
+    else:
+        raise RuntimeError(f"imagem reprovada nas regras de produto após {MAX_IMAGE_ATTEMPTS} tentativas: {problems}")
     rel = f"images/{post['id']}.png"
     image_compose.compose(background, post["title"], config.DOCS / rel)
     post["image_path"] = rel
@@ -123,9 +168,12 @@ def run(force: bool = False, limit: int | None = None, retry_failed: bool = Fals
         return 0
 
     resuming = state.get("generation_status") == "in_progress"
-    elapsed = store.calendar_days_since(state.get("last_generation_at"))
-    if not (force or resuming or elapsed is None or elapsed >= config.CYCLE_DAYS):
-        log.info("última geração há %d dias (< %d); nada a fazer", elapsed, config.CYCLE_DAYS)
+    accepted = sum(1 for p in posts if p["status"] == "accepted")
+    awaiting = sum(1 for p in posts if p["status"] in ("pending", "generating"))
+    # Reposição por demanda: poucos aceitos agendados e nada esperando aprovação → gera mais
+    needed = accepted <= config.REFILL_MAX_ACCEPTED and awaiting == 0
+    if not (force or resuming or needed):
+        log.info("%d aceitos e %d aguardando aprovação; nada a fazer", accepted, awaiting)
         return 0
 
     if resuming:
@@ -184,7 +232,7 @@ def run(force: bool = False, limit: int | None = None, retry_failed: bool = Fals
 def main() -> None:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--force", action="store_true", help="ignora a janela de 30 dias")
+    parser.add_argument("--force", action="store_true", help="gera mesmo sem precisar repor a fila")
     parser.add_argument("--limit", type=int, help="quantidade de posts (padrão: N_POSTS)")
     parser.add_argument("--retry-failed", action="store_true", help="reprocessa posts com status failed")
     args = parser.parse_args()

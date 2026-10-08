@@ -1,7 +1,9 @@
 "use strict";
 
-const CYCLE_DAYS = 30;
-const POST_EVERY_DAYS = 3;
+// Mesmas regras de config.py
+const POST_WEEKDAYS = [1, 3, 5]; // segunda, quarta, sexta (0 = domingo)
+const POST_WINDOW_END = 12; // publica entre 9h e 12h (Brasília)
+const REFILL_MAX_ACCEPTED = 3;
 const OVERRIDE_TTL_MS = 30 * 60 * 1000;
 const POLL_MS = 20 * 1000;
 
@@ -249,7 +251,7 @@ const fmtDate = (d) =>
   d.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" });
 const addDays = (iso, days) => new Date(new Date(iso).getTime() + days * 86400000);
 
-// Mesma regra do post.py: 3 dias de calendário, só dias úteis, entre 8h e 18h (Brasília)
+// Mesma regra do post.py: seg/qua/sex por volta das 10h, no máximo um post por dia (Brasília)
 function brtDate(d) {
   const p = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit" }).format(d);
   return new Date(`${p}T12:00:00-03:00`);
@@ -257,11 +259,12 @@ function brtDate(d) {
 function nextPostLabel(lastIso) {
   const today = brtDate(new Date());
   const hour = Number(new Intl.DateTimeFormat("en-US", { timeZone: "America/Sao_Paulo", hour: "numeric", hourCycle: "h23" }).format(new Date()));
-  let day = addDays(brtDate(new Date(lastIso)).toISOString(), POST_EVERY_DAYS);
-  if (day < today) day = today;
-  if (day.getTime() === today.getTime() && hour >= 18) day = addDays(today.toISOString(), 1);
-  while ([0, 6].includes(day.getUTCDay())) day = addDays(day.toISOString(), 1);
-  return day.getTime() === today.getTime() ? "Hoje" : fmtDate(day);
+  const postedToday = lastIso && brtDate(new Date(lastIso)).getTime() === today.getTime();
+  let day = today;
+  if (postedToday || hour >= POST_WINDOW_END) day = addDays(today.toISOString(), 1);
+  while (!POST_WEEKDAYS.includes(day.getUTCDay())) day = addDays(day.toISOString(), 1);
+  const label = day.getTime() === today.getTime() ? "Hoje" : day.toLocaleDateString("pt-BR", { weekday: "short", day: "2-digit", month: "short" });
+  return `${label}, 10h`;
 }
 
 function queue() {
@@ -273,14 +276,13 @@ function queue() {
 function renderSummary() {
   const q = queue();
   const pending = posts.filter((p) => effectiveStatus(p).status === "pending").length;
-  let nextPost = "0";
-  if (q.length) {
-    nextPost = state.last_post_at ? nextPostLabel(state.last_post_at) : "Na próxima verificação";
-  }
-  const nextCycle = state.last_generation_at
-    ? fmtDate(addDays(state.last_generation_at, CYCLE_DAYS))
-    : "na próxima execução";
-  $("#next-cycle").textContent = `Próxima geração de posts: ${nextCycle}`;
+  const nextPost = q.length ? nextPostLabel(state.last_post_at) : "0";
+  const generating = state.generation_status === "in_progress" || posts.some((p) => p.status === "generating");
+  $("#next-cycle").textContent = generating
+    ? "Gerando novos posts agora…"
+    : q.length <= REFILL_MAX_ACCEPTED && pending === 0
+      ? "Novos posts serão gerados em instantes."
+      : `Novos posts são gerados quando restarem ${REFILL_MAX_ACCEPTED} ou menos na fila e nenhum aguardando aprovação.`;
   const stats = [
     ["Aguardando aprovação", pending],
     ["Na fila para publicar", q.length],
