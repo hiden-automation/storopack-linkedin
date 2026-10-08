@@ -180,9 +180,9 @@
     ],
     "image_prompt": "A realistic, professional commercial photograph of an organized packing workstation inside a modern logistics distribution center. In the center of an industrial workbench sits an open, unbranded brown corrugated cardboard box. Inside the box, a generic precision electronic component is neatly packed and cushioned exclusively by transparent plastic air cushions (inflated clear air pillows). This single packaging material is the only void fill used in the entire box, with strictly no paper, no foam, and no other mixed cushioning elements. Soft ambient overhead warehouse lighting highlights the slight sheen of the transparent recycled plastic air pillows, with blurred industrial conveyor rollers in the background. Ultra-realistic commercial photography, crisp focus on the open carton, completely void of any text, letters, numbers, barcodes, logos, brand names, or people in close-up.",
     "image_path": "images/001-08.png",
-    "status": "pending",
+    "status": "rejected",
     "created_at": "2026-10-06T16:52:31+00:00",
-    "decided_at": null,
+    "decided_at": "2026-10-08T18:49:12+00:00",
     "posted_at": null,
     "linkedin_urn": null,
     "error": null
