@@ -84,11 +84,11 @@
       "EmbalagemDeProtecao",
       "EconomiaCircular"
     ],
-    "image_prompt": "A realistic and modern industrial packaging workstation inside a clean distribution center. In the foreground, open plain corrugated cardboard boxes on a stainless steel roller conveyor system are filled with protective paper cushioning and clean air pillows protecting mechanical components. The background shows soft industrial lighting, storage racks, and conveyor lines. High-end professional photography, natural lighting, no people in close-up, absolutely no text, no letters, no numbers, no logos, and no recognizable brand markings.",
+    "image_prompt": "A realistic and modern industrial packaging workstation inside a clean, sustainable distribution center. In the foreground, open plain corrugated cardboard boxes on a stainless steel roller conveyor system are packed exclusively with a single protective material: clean, crumpled pure white paper cushioning protecting manufactured components, with no mixed materials, no plastic, and no air pillows anywhere. The paper is strictly bright white, with zero brown or kraft paper. The background features soft industrial lighting, organized storage racks, and streamlined conveyor lines. High-end professional corporate photography, clean composition, natural lighting, no people in close-up, absolutely no text, no letters, no numbers, and no logos on any surface.",
     "image_path": "images/001-04.png",
-    "status": "accepted",
+    "status": "pending",
     "created_at": "2026-10-06T16:52:31+00:00",
-    "decided_at": "2026-10-06T19:12:31+00:00",
+    "decided_at": null,
     "posted_at": null,
     "linkedin_urn": null,
     "error": null
@@ -108,11 +108,11 @@
       "EmbalagemDeProtecao",
       "Logistica"
     ],
-    "image_prompt": "A wide angle, realistic photo of a modern automated fulfillment center packing line. Sturdy corrugated cardboard boxes move seamlessly on motorized roller conveyor systems through automated folding, void-fill, and sealing machinery modules. Clean, well-organized warehouse setting with sleek industrial equipment, cool industrial lighting, professional atmosphere. No people in close-up, and absolutely no text, numbers, logos, or visible brand names anywhere in the image.",
+    "image_prompt": "A wide-angle, highly detailed realistic photograph of a modern four-stage modular automated packaging and dispatch line inside a sleek fulfillment center. Clean corrugated cardboard boxes travel smoothly along motorized roller conveyors through automated box erecting, void-fill dispensing, precision taping, and dispatch routing modules. Inside each open box, the sole and exclusive protective material is clean, pristine white crumpled paper void-fill cushioning the interior, with strictly no other packing materials or mixed fillers present. Crisp industrial LED lighting illuminates the spotless warehouse floor and brushed steel modular machinery. Highly organized, cutting-edge logistics atmosphere, with no people in close-up and absolutely no text, numbers, barcodes, logos, or brand names anywhere in the scene.",
     "image_path": "images/001-05.png",
-    "status": "accepted",
+    "status": "pending",
     "created_at": "2026-10-06T16:52:31+00:00",
-    "decided_at": "2026-10-06T21:13:17+00:00",
+    "decided_at": null,
     "posted_at": null,
     "linkedin_urn": null,
     "error": null
@@ -131,11 +131,11 @@
       "PAPERplus",
       "Intralogistica"
     ],
-    "image_prompt": "A realistic packaging workstation inside a modern logistics warehouse. An open corrugated cardboard shipping box sits on an ergonomic roller conveyor, filled with carefully positioned brown kraft paper cushioning pads locking an industrial metal component securely in place. Clean industrial lighting, packaging dispenser in the blurred background, cinematic shot, no human faces visible, and absolutely no text, numbers, words, or brand logos anywhere in the scene.",
+    "image_prompt": "A realistic and professional packaging workstation inside a modern logistics warehouse. An open clean corrugated cardboard shipping box rests on an ergonomic roller conveyor. Inside the box, a precision mechanical metal component is firmly blocked and cushioned in place using exclusively thick, crimped pure white paper cushioning pads as the sole protective material. There are no other cushioning types or plastics present, and strictly no brown kraft paper. Crisp, balanced industrial lighting, soft focus on a white paper dispenser in the background, cinematic perspective, with completely blank surfaces featuring absolutely no text, numbers, letters, symbols, or brand logos anywhere in the scene.",
     "image_path": "images/001-06.png",
-    "status": "accepted",
+    "status": "pending",
     "created_at": "2026-10-06T16:52:31+00:00",
-    "decided_at": "2026-10-06T19:15:44+00:00",
+    "decided_at": null,
     "posted_at": null,
     "linkedin_urn": null,
     "error": null
