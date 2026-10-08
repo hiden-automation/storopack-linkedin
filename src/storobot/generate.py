@@ -21,16 +21,20 @@ contexto do site fornecido; nunca invente dados, clientes, preços ou estatísti
 
 # Regras da Storopack para as imagens (vão no prompt e na verificação automática)
 PRODUCT_RULES_PT = (
-    "cada caixa deve conter UM ÚNICO tipo de material de enchimento/proteção (nunca misture, por exemplo, "
-    "almofadas de ar com papel, ou espuma com papel); almofadas e enchimentos de papel são SEMPRE BRANCOS, "
-    "nunca papel pardo/kraft/marrom. Descreva explicitamente na cena qual é o único material e, se for papel, "
-    "que é papel branco."
+    "(1) cada caixa deve conter UM ÚNICO tipo de material de enchimento/proteção (nunca misture, por exemplo, "
+    "almofadas de ar com papel, ou espuma com papel). (2) A almofada de ar feita de papel (AIRfiber: "
+    "travesseiros de ar de papel, inflados) é SEMPRE BRANCA, nunca parda/kraft. Os demais materiais têm cores "
+    "variadas e podem aparecer como são (ex.: papel kraft pardo amassado ou em tiras, almofadas de ar de "
+    "filme plástico transparente, espuma). Descreva explicitamente na cena qual é o único material e, se for "
+    "AIRfiber, que é branco."
 )
 PRODUCT_RULES_EN = (
-    "Every box must contain ONLY ONE type of protective filling material - never mix materials in the same "
-    "box (e.g. no air cushions together with paper, no foam together with paper). Any paper cushions or paper "
-    "void fill must be PURE BRIGHT WHITE paper - never brown, kraft, beige or colored paper. Cardboard boxes "
-    "themselves may be regular brown corrugated cardboard."
+    "(1) Every box must contain ONLY ONE type of protective filling material - never mix materials in the "
+    "same box (e.g. no air cushions together with paper, no foam together with paper). (2) Paper-based air "
+    "pillows (inflated air cushions made of paper, product AIRfiber) are ALWAYS pure white, never brown or "
+    "kraft. Other materials keep their natural colors (crumpled or folded paper void fill may be brown kraft "
+    "paper, plastic film air cushions are translucent, foam as usual). Cardboard boxes may be regular brown "
+    "corrugated cardboard."
 )
 
 
@@ -97,7 +101,7 @@ def _image_prompt(scene: str) -> str:
 
 class ImageCheck(BaseModel):
     mixed_fillings: bool = Field(description="Alguma caixa tem mais de um tipo de material de enchimento misturado")
-    non_white_paper_cushions: bool = Field(description="Há almofada/enchimento de papel que não é branco")
+    non_white_airfiber: bool = Field(description="Há almofada de ar feita de papel (AIRfiber) que não é branca")
     text_or_logo: bool = Field(description="Há texto legível, letras, números ou logotipos")
     explanation: str = Field(description="Explicação curta do que foi observado")
 
@@ -106,8 +110,10 @@ CHECK_QUESTION = """Você é um revisor de imagens de uma fabricante de embalage
 atenção TODAS as caixas visíveis e responda:
 - mixed_fillings: true se qualquer caixa contém mais de um tipo de material de enchimento ao mesmo tempo \
 (ex.: almofadas de ar junto com papel, espuma junto com papel, plástico bolha junto com papel).
-- non_white_paper_cushions: true se existe qualquer almofada ou enchimento de papel que NÃO seja branco \
-(papel pardo, kraft, marrom, bege, colorido).
+- non_white_airfiber: true SOMENTE se aparecem almofadas/travesseiros de ar feitos de PAPEL (bolsas de papel \
+infladas, produto AIRfiber) em cor diferente de branco. Papel amassado, dobrado ou em tiras (papel de \
+enchimento comum) pode ser pardo/kraft normalmente e NÃO conta aqui; almofadas de ar de filme plástico \
+também não contam.
 - text_or_logo: true se há texto legível, letras, números ou logotipos.
 Caixas de papelão pardo são normais e não contam como enchimento."""
 
@@ -120,7 +126,7 @@ def _make_image(post: dict) -> None:
     for attempt in range(1, MAX_IMAGE_ATTEMPTS + 1):
         background = gemini.generate_image(_image_prompt(post["image_prompt"]))
         check = gemini.judge_image(background, CHECK_QUESTION, ImageCheck)
-        if not (check.mixed_fillings or check.non_white_paper_cushions or check.text_or_logo):
+        if not (check.mixed_fillings or check.non_white_airfiber or check.text_or_logo):
             break
         problems = check.explanation
         log.warning("imagem de %s reprovada (tentativa %d): %s", post["id"], attempt, problems)

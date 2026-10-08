@@ -89,7 +89,7 @@ cache/              resumo do site usado como contexto pelo Gemini
 ## Observações
 - Publicação: segunda, quarta e sexta, entre 9h e 12h de Brasília, no máximo um post por dia (Variables `POST_WEEKDAYS` = `0,2,4`, `POST_WINDOW_START`, `POST_WINDOW_END`). Um aceite fora do horário espera o próximo dia de post; `force` ignora as regras.
 - Reposição: gera mais `N_POSTS` (12) sempre que houver até `REFILL_MAX_ACCEPTED` (3) aceitos e nenhum aguardando aprovação.
-- Regras de imagem da Storopack: um único tipo de enchimento por caixa e almofadas de papel sempre brancas. Vão no prompt e cada imagem é verificada pelo Gemini antes de entrar no painel (até 3 tentativas; se todas falharem, o post fica como `failed`).
+- Regras de imagem da Storopack: um único tipo de enchimento por caixa; a almofada de ar de papel (AIRfiber) é sempre branca (os demais materiais, como papel kraft, mantêm suas cores). Vão no prompt e cada imagem é verificada pelo Gemini antes de entrar no painel (até 3 tentativas; se todas falharem, o post fica como `failed`).
 - Gerar e publicar fazem merge por post/campo com o que mudou no repositório durante a execução (`storobot.sync`), então aprovações feitas nesse meio-tempo não se perdem.
 - O cron do GitHub pode atrasar; a verificação das 14h é reserva da das 10h.
 - O GitHub desativa crons após 60 dias sem atividade no repositório; os commits automáticos do bot evitam isso.
