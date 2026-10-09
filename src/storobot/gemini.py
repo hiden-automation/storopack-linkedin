@@ -57,15 +57,22 @@ def generate_json(prompt: str, schema: type[T], system: str | None = None) -> T:
     return _retry(call)
 
 
-def judge_image(image: Image.Image, question: str, schema: type[T]) -> T:
-    """Pede ao modelo de texto (multimodal) para avaliar uma imagem e responder em JSON."""
+def _image_part(image: Image.Image) -> types.Part:
+    buf = io.BytesIO()
+    image.convert("RGB").save(buf, "JPEG", quality=88)
+    return types.Part.from_bytes(data=buf.getvalue(), mime_type="image/jpeg")
+
+
+def judge_image(
+    image: Image.Image, question: str, schema: type[T], references: list[Image.Image] | None = None
+) -> T:
+    """Pede ao modelo de texto (multimodal) para avaliar uma imagem e responder em JSON.
+    As imagens de referência (ex.: logo oficial) vão antes da imagem avaliada."""
 
     def call():
-        buf = io.BytesIO()
-        image.save(buf, "JPEG", quality=85)
         resp = client().models.generate_content(
             model=config.GEMINI_TEXT_MODEL,
-            contents=[types.Part.from_bytes(data=buf.getvalue(), mime_type="image/jpeg"), question],
+            contents=[*(_image_part(r) for r in references or []), _image_part(image), question],
             config=types.GenerateContentConfig(
                 response_mime_type="application/json", response_schema=schema, temperature=0
             ),
@@ -77,11 +84,15 @@ def judge_image(image: Image.Image, question: str, schema: type[T]) -> T:
     return _retry(call)
 
 
-def generate_image(prompt: str, aspect_ratio: str = "4:5") -> Image.Image:
+def generate_image(
+    prompt: str, aspect_ratio: str = "4:5", references: list[Image.Image] | None = None
+) -> Image.Image:
+    """Gera uma imagem; `references` (ex.: o logo oficial) são enviadas junto como referência visual."""
+
     def call():
         resp = client().models.generate_content(
             model=config.GEMINI_IMAGE_MODEL,
-            contents=prompt,
+            contents=[*(_image_part(r) for r in references or []), prompt],
             config=types.GenerateContentConfig(
                 response_modalities=["IMAGE"],
                 image_config=types.ImageConfig(aspect_ratio=aspect_ratio),

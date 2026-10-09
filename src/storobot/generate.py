@@ -3,44 +3,52 @@
 import argparse
 import logging
 import sys
+from functools import lru_cache
+from typing import Literal
 
+from PIL import Image
 from pydantic import BaseModel, Field
 
-from . import config, gemini, image_compose, notify, store
+from . import catalog, config, gemini, image_compose, notify, store
 from .site_context import get_site_context
 
 log = logging.getLogger("generate")
 
-SYSTEM = """Você é estrategista de conteúdo para LinkedIn de um vendedor/consultor técnico-comercial \
-da Storopack Brasil (embalagens de proteção: almofadas de ar AIRplus, almofadas de papel PAPERplus, \
-espuma FOAMplus, automação de embalagem e soluções sustentáveis). Os posts são publicados no PERFIL \
-PESSOAL do vendedor, não na página da empresa: escreva em primeira pessoa, tom profissional, próximo e \
-consultivo, em português do Brasil. Use SOMENTE fatos, produtos, números e certificações presentes no \
-contexto do site fornecido; nunca invente dados, clientes, preços ou estatísticas."""
+SYSTEM = f"""Você é estrategista de conteúdo para LinkedIn de um vendedor/consultor técnico-comercial \
+da Storopack Brasil. Os posts são publicados no PERFIL PESSOAL do vendedor, não na página da empresa: \
+escreva em primeira pessoa, tom profissional, próximo e consultivo, em português do Brasil.
+CATÁLOGO PERMITIDO — fale SOMENTE destes produtos; nunca cite, recomende ou mostre outros produtos da \
+Storopack (ex.: AIRfiber, PAPERwrap, PELASPAN, outras máquinas):
+{catalog.catalog_text()}
+Use SOMENTE fatos, números e certificações presentes no contexto do site fornecido; nunca invente dados, \
+clientes, preços ou estatísticas."""
 
 
 # Regras da Storopack para as imagens (vão no prompt e na verificação automática)
 PRODUCT_RULES_PT = (
     "(1) cada caixa deve conter UM ÚNICO tipo de material de enchimento/proteção (nunca misture, por exemplo, "
-    "almofadas de ar com papel, ou espuma com papel). (2) A almofada de ar feita de papel (AIRfiber: "
-    "travesseiros de ar de papel, inflados) é SEMPRE BRANCA, nunca parda/kraft. Os demais materiais têm cores "
-    "variadas e podem aparecer como são (ex.: papel kraft pardo amassado ou em tiras, almofadas de ar de "
-    "filme plástico transparente, espuma). Descreva explicitamente na cena qual é o único material e, se for "
-    "AIRfiber, que é branco."
+    "almofadas de ar com papel, ou espuma com papel). (2) Todo material de proteção visível (cada almofada de "
+    "ar, cada papel, cada saco de espuma) tem o logotipo da Storopack impresso, pequeno e discreto. "
+    "(3) Os materiais têm suas cores naturais: filme plástico translúcido, papel kraft pardo ou branco, espuma "
+    "clara. Descreva explicitamente na cena qual é o único material."
 )
 PRODUCT_RULES_EN = (
-    "(1) Every box must contain ONLY ONE type of protective filling material - never mix materials in the "
-    "same box (e.g. no air cushions together with paper, no foam together with paper). (2) Paper-based air "
-    "pillows (inflated air cushions made of paper, product AIRfiber) are ALWAYS pure white, never brown or "
-    "kraft. Other materials keep their natural colors (crumpled or folded paper void fill may be brown kraft "
-    "paper, plastic film air cushions are translucent, foam as usual). Cardboard boxes may be regular brown "
-    "corrugated cardboard."
+    "(1) Every box must contain ONLY ONE type of protective material - never mix materials in the same box. "
+    "(2) Every visible piece of protective material (each air cushion, each paper pad, each foam bag) carries "
+    "the Storopack logo from the attached reference image, printed small and subtle in blue: exactly ONE logo "
+    "per piece, placed on its flattest, most visible surface, reproduced exactly as in the reference (same 'S' "
+    "emblem in a circle and the 'STOROpack' wordmark, never altered, misspelled or invented). Do not repeat the "
+    "logo many times and do not print it on folds or wrinkles. (3) Materials keep their natural colors (translucent plastic film, brown kraft "
+    "or white paper, light-colored foam). Cardboard boxes are plain brown corrugated cardboard without print."
 )
+
+ProductName = Literal[catalog.NAMES]  # type: ignore[valid-type]
 
 
 class PlanItem(BaseModel):
-    topic: str = Field(description="Assunto do post, uma frase")
-    angle: str = Field(description="Abordagem/gancho: dica, dor do cliente, produto, sustentabilidade, case de aplicação etc.")
+    product: ProductName = Field(description="Produto do catálogo permitido que é o foco do post")
+    topic: str = Field(description="Assunto do post, uma frase, centrado no produto escolhido")
+    angle: str = Field(description="Abordagem/gancho: dica, dor do cliente, aplicação por setor, sustentabilidade etc.")
 
 
 class Plan(BaseModel):
@@ -56,77 +64,101 @@ class Copy(BaseModel):
 
 def _plan_prompt(site: str, previous_topics: list[str], n: int) -> str:
     prev = "\n".join(f"- {t}" for t in previous_topics) or "(nenhum)"
-    return f"""Com base no site da Storopack abaixo, crie um plano editorial com exatamente {n} posts \
-para os próximos dias no LinkedIn. Varie os assuntos entre: produtos específicos, aplicações por setor \
-(e-commerce, automotivo, farmacêutico, alimentos, maquinário), sustentabilidade e reciclagem, redução de \
-custos/danos no transporte, automação de embalagem e dicas práticas de embalagem. Não repita assuntos já \
-usados recentemente.
+    return f"""Crie um plano editorial com exatamente {n} posts para o LinkedIn. Cada post é sobre UM produto \
+do catálogo permitido (campo product). Distribua os posts entre as linhas AIRplus, PAPERplus, FOAMplus e \
+Working Comfort e varie os produtos (não repita o mesmo produto mais de 2 vezes). Varie as abordagens: \
+benefício do produto, dor do cliente, aplicação por setor (e-commerce, automotivo, farmacêutico, alimentos, \
+maquinário), sustentabilidade, redução de custos/danos e produtividade. Não repita assuntos já usados.
 
 Assuntos já usados:
 {prev}
 
-=== CONTEXTO DO SITE ===
+=== CONTEXTO DO SITE (somente produtos permitidos) ===
 {site}"""
 
 
 def _copy_prompt(site: str, item: dict) -> str:
+    product = catalog.BY_NAME[item["product"]]
     return f"""Escreva o post de LinkedIn sobre:
+Produto: {product.name} (linha {product.line}) — {product.about_pt}
 Assunto: {item['topic']}
 Abordagem: {item['angle']}
 
 Regras da legenda:
+- Fale do produto acima (e, se fizer sentido, de outros produtos do catálogo permitido); nenhum outro produto.
 - Gancho forte na primeira linha (é o que aparece antes do "ver mais").
 - Parágrafos curtos, pode usar poucos emojis com moderação e listas curtas.
 - A maior parte da mensagem fica na legenda; a imagem terá apenas o título.
 - Termine com uma chamada para ação convidando a conversar comigo ou comentar.
 - Não inclua as hashtags na legenda (elas vão no campo próprio).
 
-Regras do image_prompt: cena realista e profissional relacionada ao assunto (ex.: centro de \
-distribuição, produto sendo protegido dentro de caixa, linha de embalagem), sem pessoas em close, \
-SEM nenhum texto, letra, número, logotipo ou marca visível.
+Regras do image_prompt: cena realista e profissional relacionada ao assunto (ex.: bancada de embalagem, \
+produto sendo protegido dentro de caixa aberta, centro de distribuição), sem pessoas em close, sem texto, \
+letras ou números. O material de proteção mostrado deve ser exatamente: {product.visual_en}.
 REGRAS DE PRODUTO (obrigatórias): {PRODUCT_RULES_PT}
 
 === CONTEXTO DO SITE ===
 {site}"""
 
 
-def _image_prompt(scene: str) -> str:
+def _image_prompt(scene: str, product: catalog.Product) -> str:
     return (
-        f"{scene}. Professional high-quality commercial photograph, clean modern industrial and logistics "
-        "aesthetic, soft natural lighting, shallow depth of field, color palette dominated by corporate blue "
-        "(#0054A3) and white tones. Absolutely no text, no letters, no numbers, no logos, no brand names, "
-        f"no watermarks, no labels on boxes. STRICT PRODUCT RULES: {PRODUCT_RULES_EN}"
+        f"{scene}. The protective material shown is {product.visual_en}. "
+        "Professional high-quality commercial photograph, clean modern industrial and logistics aesthetic, soft "
+        "natural lighting, shallow depth of field, color palette dominated by corporate blue (#0054A3) and white "
+        "tones. No text, letters, numbers, labels or brands anywhere EXCEPT the Storopack logo on the protective "
+        f"material. STRICT PRODUCT RULES: {PRODUCT_RULES_EN}"
     )
 
 
 class ImageCheck(BaseModel):
-    mixed_fillings: bool = Field(description="Alguma caixa tem mais de um tipo de material de enchimento misturado")
-    non_white_airfiber: bool = Field(description="Há almofada de ar feita de papel (AIRfiber) que não é branca")
-    text_or_logo: bool = Field(description="Há texto legível, letras, números ou logotipos")
+    mixed_fillings: bool = Field(description="Alguma caixa tem mais de um tipo de material de proteção misturado")
+    wrong_material: bool = Field(description="O material de proteção mostrado não corresponde ao produto esperado")
+    materials_without_logo: bool = Field(description="Há material de proteção bem visível sem o logo da Storopack")
+    logo_distorted: bool = Field(description="Algum logo impresso está deformado, ilegível ou com letras erradas")
+    other_text_or_logos: bool = Field(description="Há texto, números ou logos que não sejam o logo da Storopack")
     explanation: str = Field(description="Explicação curta do que foi observado")
 
 
-CHECK_QUESTION = """Você é um revisor de imagens de uma fabricante de embalagens de proteção. Analise com \
-atenção TODAS as caixas visíveis e responda:
-- mixed_fillings: true se qualquer caixa contém mais de um tipo de material de enchimento ao mesmo tempo \
-(ex.: almofadas de ar junto com papel, espuma junto com papel, plástico bolha junto com papel).
-- non_white_airfiber: true SOMENTE se aparecem almofadas/travesseiros de ar feitos de PAPEL (bolsas de papel \
-infladas, produto AIRfiber) em cor diferente de branco. Papel amassado, dobrado ou em tiras (papel de \
-enchimento comum) pode ser pardo/kraft normalmente e NÃO conta aqui; almofadas de ar de filme plástico \
-também não contam.
-- text_or_logo: true se há texto legível, letras, números ou logotipos.
-Caixas de papelão pardo são normais e não contam como enchimento."""
+def _check_question(product: catalog.Product) -> str:
+    return f"""Você é um revisor de imagens da Storopack, fabricante de embalagens de proteção. A PRIMEIRA \
+imagem é o logotipo oficial da Storopack (referência). A SEGUNDA é a imagem a revisar. Material esperado: \
+{product.visual_en}. Responda:
+- mixed_fillings: true se qualquer caixa contém mais de um tipo de material de proteção ao mesmo tempo.
+- wrong_material: true se o material de proteção visível claramente NÃO é o esperado (ex.: papel quando \
+deveria ser almofada de ar). Se o produto esperado é uma bancada/estação de trabalho, avalie a bancada.
+- materials_without_logo: true se alguma peça de material de proteção grande, em primeiro plano e com a face \
+bem visível (almofada, papel, saco de espuma) NÃO tem o logo da Storopack. Peças pequenas, ao fundo ou com a \
+face escondida pelo ângulo/dobra não contam. Se não há material de proteção visível, false.
+- logo_distorted: true se algum logo impresso estiver claramente deformado, com letras erradas ou que não \
+pareça o da referência (emblema 'S' num círculo + 'STOROpack').
+- other_text_or_logos: true se há texto legível, números ou logotipos que não sejam o da Storopack \
+(pequenas marcações técnicas em relevo numa peça metálica não contam).
+Caixas de papelão pardo lisas são normais."""
 
-MAX_IMAGE_ATTEMPTS = 3
+
+MAX_IMAGE_ATTEMPTS = 5
+
+
+@lru_cache
+def _logo_reference() -> Image.Image:
+    """Logo oficial com margem branca, enviado ao Gemini como referência."""
+    logo = Image.open(config.DOCS / "img" / "logo_storopack_header.png").convert("RGB")
+    ref = Image.new("RGB", (logo.width + 80, logo.height + 80), "white")
+    ref.paste(logo, (40, 40))
+    return ref
 
 
 def _make_image(post: dict) -> None:
-    """Gera a ilustração e só aceita se passar na verificação das regras de produto."""
+    """Gera a ilustração (com o logo real como referência) e só aceita se passar na verificação."""
+    product = catalog.BY_NAME[post["product"]]
+    logo = _logo_reference()
     problems = ""
     for attempt in range(1, MAX_IMAGE_ATTEMPTS + 1):
-        background = gemini.generate_image(_image_prompt(post["image_prompt"]))
-        check = gemini.judge_image(background, CHECK_QUESTION, ImageCheck)
-        if not (check.mixed_fillings or check.non_white_airfiber or check.text_or_logo):
+        background = gemini.generate_image(_image_prompt(post["image_prompt"], product), references=[logo])
+        check = gemini.judge_image(background, _check_question(product), ImageCheck, references=[logo])
+        if not (check.mixed_fillings or check.wrong_material or check.materials_without_logo
+                or check.logo_distorted or check.other_text_or_logos):
             break
         problems = check.explanation
         log.warning("imagem de %s reprovada (tentativa %d): %s", post["id"], attempt, problems)
@@ -199,6 +231,7 @@ def run(force: bool = False, limit: int | None = None, retry_failed: bool = Fals
                     "id": f"{cycle:03d}-{order:02d}",
                     "cycle": cycle,
                     "order": order,
+                    "product": item.product,
                     "topic": item.topic,
                     "angle": item.angle,
                     "title": None,

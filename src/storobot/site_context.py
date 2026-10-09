@@ -1,25 +1,15 @@
-"""Raspa storopack.com.br e monta um resumo em texto usado como contexto para o Gemini."""
+"""Baixa as páginas dos produtos permitidos em storopack.com.br e monta o contexto do Gemini."""
 
 import logging
-from urllib.parse import urljoin, urlparse
-
 import requests
 from bs4 import BeautifulSoup
 
-from . import config
+from . import catalog, config
 
 log = logging.getLogger(__name__)
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; storobot/1.0)"}
-INCLUDE_PREFIXES = (
-    "/produtos/",
-    "/aplicacoes/",
-    "/sustentabilidade/",
-    "/empresa/sobre-nos/",
-    "/empresa/processo-storopack/",
-)
-MAX_PAGES = 45
-MAX_CHARS_PER_PAGE = 2500
+MAX_CHARS_PER_PAGE_CATALOG = 6000
 
 
 def _fetch(url: str) -> BeautifulSoup | None:
@@ -43,34 +33,20 @@ def _page_text(soup: BeautifulSoup) -> str:
     return text.replace("Your browser does not support the video tag.", "").replace("►", "").strip()
 
 
-def _internal_links(soup: BeautifulSoup) -> list[str]:
-    links = []
-    for a in soup.find_all("a", href=True):
-        url = urljoin(config.SITE_URL + "/", a["href"])
-        parsed = urlparse(url)
-        if parsed.netloc != urlparse(config.SITE_URL).netloc:
-            continue
-        if parsed.path.startswith(INCLUDE_PREFIXES) and parsed.path not in links:
-            links.append(parsed.path)
-    return links
-
-
 def build_site_context() -> str:
-    home = _fetch(config.SITE_URL + "/")
-    if home is None:
-        raise RuntimeError("não foi possível acessar o site da Storopack")
-
-    sections = [f"## Página inicial\n{_page_text(home)[:MAX_CHARS_PER_PAGE]}"]
-    # Páginas mais rasas primeiro (categorias antes de produtos específicos)
-    paths = sorted(_internal_links(home), key=lambda p: (p.count("/"), p))[:MAX_PAGES]
-    for path in paths:
-        soup = _fetch(config.SITE_URL + path)
+    """Só as páginas dos produtos do catálogo permitido, mais páginas de apoio (empresa/sustentabilidade)."""
+    urls = list(dict.fromkeys([p.url for p in catalog.PRODUCTS] + catalog.SUPPORT_PAGES))
+    sections = []
+    for url in urls:
+        soup = _fetch(url)
         if soup is None:
             continue
-        title = soup.title.get_text(strip=True) if soup.title else path
-        text = _page_text(soup)[:MAX_CHARS_PER_PAGE]
+        title = soup.title.get_text(strip=True) if soup.title else url
+        text = _page_text(soup)[:MAX_CHARS_PER_PAGE_CATALOG]
         if len(text) > 200:
-            sections.append(f"## {title}\nURL: {config.SITE_URL}{path}\n{text}")
+            sections.append(f"## {title}\nURL: {url}\n{text}")
+    if not sections:
+        raise RuntimeError("não foi possível acessar o site da Storopack")
     log.info("contexto do site: %d páginas", len(sections))
     return "\n\n".join(sections)
 
