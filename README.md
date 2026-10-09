@@ -5,7 +5,7 @@ Automação 100% em **GitHub Actions + GitHub Pages**:
 | Workflow | Quando | O que faz |
 |---|---|---|
 | `generate.yml` | diário 08:00 BRT e após cada aceite/recusa/publicação; só age quando há **3 ou menos aceitos e nenhum aguardando aprovação** | Lê storopack.com.br → Gemini cria plano de 12 temas → copy de cada post → imagem (ilustração IA verificada + título + logo original) |
-| `post.yml` | **segunda, quarta e sexta** às 10:00 (e 11:00 de reserva) BRT | Publica no perfil pessoal do LinkedIn o próximo post **aceito** (no máximo um por dia, entre 9h e 12h) |
+| `post.yml` | dias úteis: a cada 20 min das 9h às 12h e de hora em hora até as 20h (BRT) | Publica o próximo post **aceito** na segunda, quarta e sexta, de preferência de manhã; no máximo um por dia; dia de post perdido é recuperado no próximo dia útil |
 | `set-status.yml` | disparado pelos botões da página | Muda o status do post; ao aceitar, chama o `post.yml` (publica na hora se for dia/horário de post e ainda não houve post hoje) e o `generate.yml` |
 | `subscribe.yml` | disparado pelo botão de notificações | Cadastra o aparelho para receber notificações push |
 | `pages.yml` | após cada workflow acima | Publica a página de aprovação (`docs/`) |
@@ -87,7 +87,7 @@ cache/              resumo do site usado como contexto pelo Gemini
 ```
 
 ## Observações
-- Publicação: segunda, quarta e sexta, entre 9h e 12h de Brasília, no máximo um post por dia (Variables `POST_WEEKDAYS` = `0,2,4`, `POST_WINDOW_START`, `POST_WINDOW_END`). Um aceite fora do horário espera o próximo dia de post; `force` ignora as regras.
+- Publicação: segunda, quarta e sexta, no máximo um post por dia (Variables `POST_WEEKDAYS` = `0,2,4`, `POST_WINDOW_START` = 9, `POST_WINDOW_END` = 20). O cron do GitHub atrasa e às vezes descarta execuções, por isso há tentativas a cada 20 min de manhã (minutos quebrados) e de hora em hora à tarde. Se o post do dia não sair até o meio-dia, o painel mostra o botão **Publicar agora**. Um dia de post que passe em branco é recuperado no próximo dia útil. `force` ignora as regras.
 - Reposição: gera mais `N_POSTS` (12) sempre que houver até `REFILL_MAX_ACCEPTED` (3) aceitos e nenhum aguardando aprovação.
 - Regras de imagem da Storopack: um único tipo de enchimento por caixa; a almofada de ar de papel (AIRfiber) é sempre branca (os demais materiais, como papel kraft, mantêm suas cores). Vão no prompt e cada imagem é verificada pelo Gemini antes de entrar no painel (até 3 tentativas; se todas falharem, o post fica como `failed`).
 - Gerar e publicar fazem merge por post/campo com o que mudou no repositório durante a execução (`storobot.sync`), então aprovações feitas nesse meio-tempo não se perdem.

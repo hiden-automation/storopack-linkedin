@@ -26,11 +26,13 @@ N_POSTS = int(os.getenv("N_POSTS") or 12)
 # Gera mais N_POSTS quando há até esta quantidade de aceitos e nenhum aguardando aprovação
 REFILL_MAX_ACCEPTED = int(os.getenv("REFILL_MAX_ACCEPTED") or 3)
 
-# Publicação (horário de Brasília): segunda, quarta e sexta, por volta das 10h
-# Dias: 0=segunda … 6=domingo. A janela cobre atrasos do agendador do GitHub.
+# Publicação (horário de Brasília): segunda, quarta e sexta, preferencialmente de manhã.
+# Dias: 0=segunda … 6=domingo. O agendador tenta a cada 20 min das 9h às 12h e, se falhar
+# (o cron do GitHub atrasa/descarta execuções), de hora em hora até POST_WINDOW_END.
+# Se um dia de post passar em branco, o post sai no próximo dia útil (recuperação).
 POST_WEEKDAYS = [int(d) for d in (os.getenv("POST_WEEKDAYS") or "0,2,4").split(",")]
 POST_WINDOW_START = int(os.getenv("POST_WINDOW_START") or 9)
-POST_WINDOW_END = int(os.getenv("POST_WINDOW_END") or 12)
+POST_WINDOW_END = int(os.getenv("POST_WINDOW_END") or 20)
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 GEMINI_TEXT_MODEL = os.getenv("GEMINI_TEXT_MODEL") or "gemini-3.8-flash"

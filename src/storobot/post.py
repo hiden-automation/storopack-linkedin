@@ -4,6 +4,7 @@ import argparse
 import logging
 import os
 import sys
+from datetime import timedelta
 
 from . import config, linkedin, notify, store
 
@@ -36,10 +37,25 @@ def token_warning() -> None:
 WEEKDAY_NAMES = ["segunda", "terça", "quarta", "quinta", "sexta", "sábado", "domingo"]
 
 
-def outside_window() -> str | None:
-    """Motivo para não publicar agora, ou None se está dentro da janela."""
+def missed_post_day(last_post_at: str | None) -> bool:
+    """Houve algum dia de post (seg/qua/sex) depois do último post e antes de hoje sem publicação?"""
+    last = store.parse_iso(last_post_at)
+    if last is None:
+        return False
+    day = last.astimezone(store.BRT).date() + timedelta(days=1)
+    today = store.now().astimezone(store.BRT).date()
+    while day < today:
+        if day.weekday() in config.POST_WEEKDAYS:
+            return True
+        day += timedelta(days=1)
+    return False
+
+
+def outside_window(last_post_at: str | None = None) -> str | None:
+    """Motivo para não publicar agora, ou None se pode publicar."""
     local = store.now().astimezone(store.BRT)
-    if local.weekday() not in config.POST_WEEKDAYS:
+    catch_up = local.weekday() < 5 and missed_post_day(last_post_at)
+    if local.weekday() not in config.POST_WEEKDAYS and not catch_up:
         return f"{WEEKDAY_NAMES[local.weekday()]} não é dia de publicação"
     if not config.POST_WINDOW_START <= local.hour < config.POST_WINDOW_END:
         return f"fora da janela {config.POST_WINDOW_START}h–{config.POST_WINDOW_END}h ({local:%H:%M})"
@@ -48,13 +64,13 @@ def outside_window() -> str | None:
 
 def run(force: bool = False, dry_run: bool = False) -> int:
     token_warning()
-    reason = outside_window()
+    state = store.load_state()
+    posts = store.load_posts()
+
+    reason = outside_window(state.get("last_post_at"))
     if not force and reason:
         log.info("%s; aguardando a próxima verificação", reason)
         return 0
-
-    state = store.load_state()
-    posts = store.load_posts()
 
     # No máximo um post por dia
     if not force and store.calendar_days_since(state.get("last_post_at")) == 0:

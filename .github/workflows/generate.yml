@@ -2,9 +2,10 @@ name: Gerar posts (quando a fila acaba)
 
 on:
   schedule:
-    # Diário 08:00 BRT como garantia; também é disparado após cada aceite/recusa/publicação.
+    # Diário 08:17 e 12:47 BRT como garantia; também é disparado após cada aceite/recusa/publicação.
     # Só gera se houver até 3 aceitos e nenhum aguardando aprovação.
-    - cron: "0 11 * * *"
+    - cron: "17 11 * * *"
+    - cron: "47 15 * * *"
   workflow_dispatch:
     inputs:
       mode:

@@ -2,7 +2,9 @@
 
 // Mesmas regras de config.py
 const POST_WEEKDAYS = [1, 3, 5]; // segunda, quarta, sexta (0 = domingo)
-const POST_WINDOW_END = 12; // publica entre 9h e 12h (Brasília)
+const POST_WINDOW_START = 9; // tenta publicar das 9h…
+const POST_MORNING_END = 12; // …preferencialmente até o meio-dia…
+const POST_WINDOW_END = 20; // …e, se o agendador falhar, até as 20h (Brasília)
 const REFILL_MAX_ACCEPTED = 3;
 const OVERRIDE_TTL_MS = 30 * 60 * 1000;
 const POLL_MS = 20 * 1000;
@@ -265,20 +267,61 @@ const fmtDate = (d) =>
   d.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" });
 const addDays = (iso, days) => new Date(new Date(iso).getTime() + days * 86400000);
 
-// Mesma regra do post.py: seg/qua/sex por volta das 10h, no máximo um post por dia (Brasília)
+// Mesmas regras do post.py: seg/qua/sex de manhã, no máximo um post por dia (Brasília);
+// dia de post que passou em branco é recuperado no próximo dia útil.
 function brtDate(d) {
   const p = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo", year: "numeric", month: "2-digit", day: "2-digit" }).format(d);
   return new Date(`${p}T12:00:00-03:00`);
 }
+const brtHour = () =>
+  Number(new Intl.DateTimeFormat("en-US", { timeZone: "America/Sao_Paulo", hour: "numeric", hourCycle: "h23" }).format(new Date()));
+const isWeekday = (d) => d.getUTCDay() >= 1 && d.getUTCDay() <= 5;
+
+function missedPostDay(lastIso) {
+  if (!lastIso) return false;
+  const today = brtDate(new Date());
+  for (let d = addDays(brtDate(new Date(lastIso)).toISOString(), 1); d < today; d = addDays(d.toISOString(), 1)) {
+    if (POST_WEEKDAYS.includes(d.getUTCDay())) return true;
+  }
+  return false;
+}
+
+// Hoje é dia de publicar (dia de post ou recuperação) e ainda não houve post hoje?
+function dueToday(lastIso) {
+  const today = brtDate(new Date());
+  if (lastIso && brtDate(new Date(lastIso)).getTime() === today.getTime()) return false;
+  return POST_WEEKDAYS.includes(today.getUTCDay()) || (isWeekday(today) && missedPostDay(lastIso));
+}
+
 function nextPostLabel(lastIso) {
   const today = brtDate(new Date());
-  const hour = Number(new Intl.DateTimeFormat("en-US", { timeZone: "America/Sao_Paulo", hour: "numeric", hourCycle: "h23" }).format(new Date()));
-  const postedToday = lastIso && brtDate(new Date(lastIso)).getTime() === today.getTime();
-  let day = today;
-  if (postedToday || hour >= POST_WINDOW_END) day = addDays(today.toISOString(), 1);
+  const hour = brtHour();
+  if (dueToday(lastIso) && hour < POST_WINDOW_END) {
+    return hour < POST_MORNING_END ? "Hoje, manhã" : "Hoje (atrasado)";
+  }
+  let day = addDays(today.toISOString(), 1);
   while (!POST_WEEKDAYS.includes(day.getUTCDay())) day = addDays(day.toISOString(), 1);
-  const label = day.getTime() === today.getTime() ? "Hoje" : day.toLocaleDateString("pt-BR", { weekday: "short", day: "2-digit", month: "short" });
-  return `${label}, 10h`;
+  return `${day.toLocaleDateString("pt-BR", { weekday: "short", day: "2-digit", month: "short" })}, manhã`;
+}
+
+// Botão de segurança: aparece se o post do dia ainda não saiu depois do meio-dia
+function canPublishNow(q) {
+  const hour = brtHour();
+  return q.length > 0 && dueToday(state.last_post_at) && hour >= POST_MORNING_END && hour < POST_WINDOW_END;
+}
+
+async function publishNow(btn) {
+  if (!requireAccess()) return;
+  btn.disabled = true;
+  try {
+    await dispatchWorkflow("post.yml", { force: "false" });
+    toast("Publicação solicitada. O post deve aparecer no LinkedIn em 1 a 2 minutos.");
+    clearTimeout(pollTimer);
+    pollTimer = setTimeout(load, 90 * 1000);
+  } catch (err) {
+    toast(`Não foi possível publicar: ${err.message}`, true);
+    btn.disabled = false;
+  }
 }
 
 function queue() {
@@ -305,6 +348,8 @@ function renderSummary() {
   $("#summary").innerHTML = stats
     .map(([l, v]) => `<div class="stat"><div class="label">${l}</div><div class="value">${esc(String(v))}</div></div>`)
     .join("");
+  const late = $("#publish-now");
+  late.hidden = !canPublishNow(q);
 }
 
 function renderTabs() {
@@ -417,6 +462,7 @@ $("#grid").addEventListener("click", (e) => {
 });
 
 $("#settings-btn").addEventListener("click", openSettings);
+$("#publish-now-btn").addEventListener("click", (e) => publishNow(e.currentTarget));
 $("#settings").addEventListener("close", () => {
   if ($("#settings").returnValue !== "save") return;
   lsSet("storobot.repo", $("#repo-input").value.trim());
