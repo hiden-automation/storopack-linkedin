@@ -48,29 +48,6 @@
     "error": null
   },
   {
-    "id": "001-03",
-    "cycle": 1,
-    "order": 3,
-    "topic": "Bloqueio e calçamento de peças pesadas e maquinários industriais com espuma PU expansiva FOAMplus®.",
-    "angle": "Redução de danos e custos: explicar como a mistura que expande até 250 vezes o seu volume líquido abraça contornos complexos e protege motores e componentes de alto valor sem elevar o peso do frete.",
-    "title": "Proteção e calçamento sob medida para maquinários pesados",
-    "caption": "Embalar motores e maquinários industriais pesados sem risco de avarias nem peso excessivo no frete parece um grande desafio?\n\nNo transporte de componentes mecânicos de alto valor e peças técnicas, materiais convencionais muitas vezes não conseguem conter a movimentação e absorver vibrações severas dentro da caixa de envio.\n\nCom o sistema de espuma expansiva de PU FOAMplus®, resolvemos essa equação com precisão técnica:\n\n• Expansão inteligente: a mistura dos componentes líquidos expande até 250 vezes o seu volume original sob demanda, liberando espaço valioso de armazenagem antes ocupado por calços pré-fabricados.\n• Ajuste perfeito: a espuma se molda e abraça contornos complexos e pontas afiadas, endurecendo ao redor da peça para criar um calçamento e bloqueio sob medida contra choques mecânicos.\n• Baixo peso e alta robustez: apesar de suportar equipamentos grandes e sólidos, o poliuretano expandido é extremamente leve, o que protege o produto sem onerar os custos de frete.\n\nCom equipamentos como o FOAMplus® Bag Packer³ e Hand Packer², a aplicação é feita em segundos diretamente na estação de trabalho, garantindo produtividade e integridade absoluta na entrega.\n\nSua operação já enfrentou prejuízos com maquinários ou peças danificadas no transporte? Deixe seu comentário ou me chame por mensagem direta para conversarmos sobre como otimizar o seu processo de embalagem!",
-    "hashtags": [
-      "FOAMplus",
-      "EmbalagemIndustrial",
-      "ProtecaoDeCargas",
-      "Logistica"
-    ],
-    "image_prompt": "A realistic high-angle photograph of an industrial packaging line inside a modern warehouse. In an open heavy-duty cardboard shipping box, a heavy industrial metal motor component is securely nested and braced by custom-molded expanding protective foam contours fitting its exact shape. Clean industrial workstation setting, realistic soft lighting, high depth of field, completely free of any text, letters, numbers, logos, or brand marks, with no people visible.",
-    "image_path": "images/001-03.png",
-    "status": "posted",
-    "created_at": "2026-10-06T16:52:31+00:00",
-    "decided_at": "2026-10-06T21:13:23+00:00",
-    "posted_at": "2026-10-09T15:53:00+00:00",
-    "linkedin_urn": "urn:li:share:7514352225662545920",
-    "error": null
-  },
-  {
     "id": "001-04",
     "cycle": 1,
     "order": 4,
@@ -251,12 +228,12 @@
     ],
     "image_prompt": "A crisp, realistic, professional photograph set in a modern, sustainable distribution center workbench. In the foreground, an open plain brown corrugated cardboard box rests on an industrial packing table, containing exclusively a single packaging material: custom-molded, off-white bio-based expanding protective foam. The contoured bio-foam cushions seamlessly conform around and lock a complex metallic mechanical device firmly in place, demonstrating secure void-fill and edge protection with no other packaging materials present. The background displays a softly blurred warehouse environment with clean storage racks and packaging dispensers under bright, balanced industrial lighting. Completely without any people in close-up, and entirely free of any text, numbers, letters, labels, or brand logos.",
     "image_path": "images/001-11.png",
-    "status": "accepted",
+    "status": "rejected",
     "created_at": "2026-10-06T16:52:31+00:00",
-    "decided_at": "2026-10-08T18:51:45+00:00",
+    "decided_at": "2026-10-09T21:09:26+00:00",
     "posted_at": null,
     "linkedin_urn": null,
-    "error": null
+    "error": "Retirado da fila: a imagem mostra molde de espuma recortada (EPE), material que a Storopack não trabalha."
   },
   {
     "id": "001-12",

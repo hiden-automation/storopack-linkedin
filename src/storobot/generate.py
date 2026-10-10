@@ -20,6 +20,9 @@ escreva em primeira pessoa, tom profissional, próximo e consultivo, em portugu�
 CATÁLOGO PERMITIDO — fale SOMENTE destes produtos; nunca cite, recomende ou mostre outros produtos da \
 Storopack (ex.: AIRfiber, PAPERwrap, PELASPAN, outras máquinas):
 {catalog.catalog_text()}
+A Storopack NÃO trabalha com EPE (espuma de polietileno), EPS/isopor nem moldes de espuma recortados: a \
+espuma da Storopack é sempre a FOAMplus, espuma de poliuretano expansiva dentro de sacos, que se molda ao \
+produto. Nunca sugira esses outros materiais.
 Use SOMENTE fatos, números e certificações presentes no contexto do site fornecido; nunca invente dados, \
 clientes, preços ou estatísticas."""
 
@@ -94,39 +97,52 @@ Regras da legenda:
 
 Regras do image_prompt: cena realista e profissional relacionada ao assunto (ex.: bancada de embalagem, \
 produto sendo protegido dentro de caixa aberta, centro de distribuição), sem pessoas em close, sem texto, \
-letras ou números. O material de proteção mostrado deve ser exatamente: {product.visual_en}.
+letras ou números. O material de proteção mostrado deve ser exatamente: {product.visual_en}. \
+Nunca descreva EPE, isopor/EPS, blocos ou moldes de espuma recortados.
 REGRAS DE PRODUTO (obrigatórias): {PRODUCT_RULES_PT}
 
 === CONTEXTO DO SITE ===
 {site}"""
 
 
-def _image_prompt(scene: str, product: catalog.Product) -> str:
+def _image_prompt(scene: str, product: catalog.Product, n_refs: int) -> str:
     return (
-        f"{scene}. The protective material shown is {product.visual_en}. "
+        "The FIRST attached image is the official Storopack logo. "
+        f"The next {n_refs} attached image(s) are REAL product photos of {product.name} from storopack.com.br: use "
+        "them ONLY as the visual reference for how the protective material looks (shape, texture, color, how it "
+        "sits in the box) and reproduce that material faithfully; create a NEW photograph (different product "
+        "being protected, different angle and setting), do not copy the reference photos. "
+        f"Scene: {scene}. The protective material shown is {product.visual_en}. "
         "Professional high-quality commercial photograph, clean modern industrial and logistics aesthetic, soft "
         "natural lighting, shallow depth of field, color palette dominated by corporate blue (#0054A3) and white "
         "tones. No text, letters, numbers, labels or brands anywhere EXCEPT the Storopack logo on the protective "
-        f"material. STRICT PRODUCT RULES: {PRODUCT_RULES_EN}"
+        f"material. STRICT PRODUCT RULES: {PRODUCT_RULES_EN} NEVER show any of these materials, which Storopack "
+        f"does not sell: {catalog.FORBIDDEN_MATERIALS_EN}."
     )
 
 
 class ImageCheck(BaseModel):
+    forbidden_material: bool = Field(description="Aparece EPE, isopor/EPS, ou espuma rígida recortada/moldada em bloco")
     mixed_fillings: bool = Field(description="Alguma caixa tem mais de um tipo de material de proteção misturado")
-    wrong_material: bool = Field(description="O material de proteção mostrado não corresponde ao produto esperado")
+    wrong_material: bool = Field(description="O material de proteção não se parece com o das fotos reais do produto")
     materials_without_logo: bool = Field(description="Há material de proteção bem visível sem o logo da Storopack")
     logo_distorted: bool = Field(description="Algum logo impresso está deformado, ilegível ou com letras erradas")
     other_text_or_logos: bool = Field(description="Há texto, números ou logos que não sejam o logo da Storopack")
     explanation: str = Field(description="Explicação curta do que foi observado")
 
 
-def _check_question(product: catalog.Product) -> str:
+def _check_question(product: catalog.Product, n_refs: int) -> str:
     return f"""Você é um revisor de imagens da Storopack, fabricante de embalagens de proteção. A PRIMEIRA \
-imagem é o logotipo oficial da Storopack (referência). A SEGUNDA é a imagem a revisar. Material esperado: \
-{product.visual_en}. Responda:
+imagem é o logotipo oficial da Storopack. As {n_refs} imagens seguintes são FOTOS REAIS do produto \
+{product.name} (referência do material correto). A ÚLTIMA imagem é a gerada por IA, que você deve revisar. \
+Material esperado: {product.visual_en}. Responda sobre a ÚLTIMA imagem:
+- forbidden_material: true se aparece qualquer material que a Storopack NÃO trabalha: {catalog.FORBIDDEN_MATERIALS_EN}. \
+Atenção especial: espuma em bloco/placa branca ou cinza com cavidade recortada no formato do produto é EPE/EPS \
+e deve ser reprovada; a espuma da Storopack (FOAMplus) é sempre macia, arredondada, creme, dentro de sacos de \
+filme plástico, moldada organicamente ao produto.
 - mixed_fillings: true se qualquer caixa contém mais de um tipo de material de proteção ao mesmo tempo.
-- wrong_material: true se o material de proteção visível claramente NÃO é o esperado (ex.: papel quando \
-deveria ser almofada de ar). Se o produto esperado é uma bancada/estação de trabalho, avalie a bancada.
+- wrong_material: true se o material de proteção visível NÃO se parece com o das fotos reais de referência \
+(formato, textura, cor). Se o produto esperado é uma bancada/estação de trabalho, compare a bancada.
 - materials_without_logo: true se alguma peça de material de proteção grande, em primeiro plano e com a face \
 bem visível (almofada, papel, saco de espuma) NÃO tem o logo da Storopack. Peças pequenas, ao fundo ou com a \
 face escondida pelo ângulo/dobra não contam. Se não há material de proteção visível, false.
@@ -149,16 +165,28 @@ def _logo_reference() -> Image.Image:
     return ref
 
 
+@lru_cache
+def _product_references(name: str) -> tuple[Image.Image, ...]:
+    """Fotos reais do produto (assets/references), reduzidas para economizar tokens."""
+    images = []
+    for file in catalog.BY_NAME[name].refs:
+        img = Image.open(config.ASSETS / "references" / file).convert("RGB")
+        img.thumbnail((1024, 1024))
+        images.append(img)
+    return tuple(images)
+
+
 def _make_image(post: dict) -> None:
-    """Gera a ilustração (com o logo real como referência) e só aceita se passar na verificação."""
+    """Gera a ilustração com o logo e fotos reais do produto como referência; só aceita se passar na verificação."""
     product = catalog.BY_NAME[post["product"]]
-    logo = _logo_reference()
+    refs = [_logo_reference(), *_product_references(product.name)]
+    n = len(refs) - 1
     problems = ""
     for attempt in range(1, MAX_IMAGE_ATTEMPTS + 1):
-        background = gemini.generate_image(_image_prompt(post["image_prompt"], product), references=[logo])
-        check = gemini.judge_image(background, _check_question(product), ImageCheck, references=[logo])
-        if not (check.mixed_fillings or check.wrong_material or check.materials_without_logo
-                or check.logo_distorted or check.other_text_or_logos):
+        background = gemini.generate_image(_image_prompt(post["image_prompt"], product, n), references=refs)
+        check = gemini.judge_image(background, _check_question(product, n), ImageCheck, references=refs)
+        if not (check.forbidden_material or check.mixed_fillings or check.wrong_material
+                or check.materials_without_logo or check.logo_distorted or check.other_text_or_logos):
             break
         problems = check.explanation
         log.warning("imagem de %s reprovada (tentativa %d): %s", post["id"], attempt, problems)
