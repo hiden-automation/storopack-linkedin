@@ -276,9 +276,9 @@
     ],
     "image_prompt": "A realistic, professional photograph of an industrial packaging station in a modern distribution center. On a clean wooden workbench sits an open brown cardboard shipping box containing a sensitive product wrapped in translucent plastic air cushion film with rows of round inflated bubbles. This translucent bubble cushion film is the only protective packaging material inside the box. Each round inflated bubble cushion has a small, discreet Storopack logo printed on its translucent plastic surface. In the background, a compact air cushion machine stands on the table next to neatly arranged storage racks in soft focus. Natural warehouse lighting, crisp details, strictly no people in close-up, no text, no numbers, no labels.",
     "image_path": "images/002-01.png",
-    "status": "pending",
+    "status": "rejected",
     "created_at": "2026-10-10T00:43:48+00:00",
-    "decided_at": null,
+    "decided_at": "2026-10-10T23:30:07+00:00",
     "posted_at": null,
     "linkedin_urn": null,
     "error": null
