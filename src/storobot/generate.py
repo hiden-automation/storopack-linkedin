@@ -42,7 +42,10 @@ PRODUCT_RULES_EN = (
     "per piece, placed on its flattest, most visible surface, reproduced exactly as in the reference (same 'S' "
     "emblem in a circle and the 'STOROpack' wordmark, never altered, misspelled or invented). Do not repeat the "
     "logo many times and do not print it on folds or wrinkles. (3) Materials keep their natural colors (translucent plastic film, brown kraft "
-    "or white paper, light-colored foam). Cardboard boxes are plain brown corrugated cardboard without print."
+    "or white paper, light-colored foam). Cardboard boxes are plain brown corrugated cardboard without print. "
+    "(4) Machines, dispensers and equipment are plain, with NO printed logo, brand name, text or labels on them, "
+    "and there are NO computer screens, monitors or displays in the scene (the logo appears only on the "
+    "protective material)."
 )
 
 ProductName = Literal[catalog.NAMES]  # type: ignore[valid-type]
