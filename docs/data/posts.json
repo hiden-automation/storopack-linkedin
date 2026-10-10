@@ -305,7 +305,7 @@
     "decided_at": null,
     "posted_at": null,
     "linkedin_urn": null,
-    "error": "imagem reprovada nas regras de produto após 5 tentativas: Almofadas de ar adequadas, porém com peças sem logo e grafia/disposição do logotipo divergente do padrão oficial."
+    "error": "imagem reprovada nas regras de produto após 5 tentativas: Almofadas de ar AIRplus adequadas, porém a impressão do logotipo apresenta variações e pequenas deformações na tipografia."
   },
   {
     "id": "002-03",
@@ -403,7 +403,7 @@
     "decided_at": null,
     "posted_at": null,
     "linkedin_urn": null,
-    "error": "imagem reprovada nas regras de produto após 5 tentativas: O papel utilizado possui formato/estrias diferentes do padrão PAPERplus Track de referência (e a máquina ejeta papel liso). O logotipo na folha apresenta o símbolo desalinhado e distorcido, além de haver texto legível na máquina."
+    "error": "imagem reprovada nas regras de produto após 5 tentativas: O material utilizado não corresponde às almofadas plissadas características do PAPERplus Track, apresentando envelopes de papel kraft misturados com papel amassado avulso. Além disso, o logotipo da Storopack está distorcido, com o emblema centralizado incorretamente e grafia fora do padrão oficial."
   },
   {
     "id": "002-07",
@@ -470,13 +470,13 @@
       "Armazenagem"
     ],
     "image_prompt": "A professional, realistic photograph in a modern distribution center packaging station. An open corrugated cardboard box sits on a clean packaging workbench. Inside the open box, a heavy industrial metallic component is safely protected and encapsulated exclusively by FOAMplus foam-in-bag cushions: soft, rounded, pillow-shaped cushions of cream off-white expanding polyurethane foam sealed inside thin translucent plastic film bags, with irregular organic shapes that have expanded and conformed tightly around the product contours. A small and discreet Storopack logo is printed on the translucent film surface of each foam cushion. The foam-in-bag cushions are the only protective packaging material inside the box. In the background, the compact FOAMplus Bag Packer 2 machine is mounted neatly, alongside tidy industrial storage racks. Professional warehouse lighting, shallow depth of field, no people in close-up, no text, no numbers.",
-    "image_path": null,
-    "status": "failed",
+    "image_path": "images/002-09.png",
+    "status": "pending",
     "created_at": "2026-10-10T00:43:48+00:00",
     "decided_at": null,
     "posted_at": null,
     "linkedin_urn": null,
-    "error": "imagem reprovada nas regras de produto após 5 tentativas: Almofadas de espuma adequadas ao padrão, porém com logos ligeiramente deformados e inscrições adicionais."
+    "error": null
   },
   {
     "id": "002-10",
@@ -543,12 +543,12 @@
       "EmbalagemDeProtecao"
     ],
     "image_prompt": "Commercial photography of a modern modular ergonomic packing workstation inside an organized e-commerce logistics center. The height-adjustable steel packing table has overhead shelves and organizers with tools within arm's reach, and an integrated water-activated tape dispenser seamlessly embedded into the worktop surface. Positioned on the table is exactly ONE open corrugated cardboard box containing only brown kraft paper cushioning as the single protective packaging material; each visible section of the kraft paper has a small, discreet Storopack logo printed on it. Clean industrial warehouse setting, soft natural lighting, no people in close-up, no computer screens, no labels, no text, no numbers.",
-    "image_path": null,
-    "status": "failed",
+    "image_path": "images/002-12.png",
+    "status": "pending",
     "created_at": "2026-10-10T00:43:48+00:00",
     "decided_at": null,
     "posted_at": null,
     "linkedin_urn": null,
-    "error": "imagem reprovada nas regras de produto após 5 tentativas: Bancada e almofadas de papel adequadas, porém os logotipos impressos no papel estão graficamente distorcidos."
+    "error": null
   }
 ]
