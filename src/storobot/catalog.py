@@ -1,8 +1,8 @@
 """Catálogo permitido: os posts só podem falar destes produtos (definido pelo cliente).
 
 Cada item tem a página do site (contexto para o Gemini), uma descrição curta em português
-(para o texto), a aparência do material em inglês (para a imagem) e fotos reais do site
-(assets/references/, baixadas por scripts/fetch_references.py) usadas como referência visual.
+(para o texto) e a aparência do material em inglês. As imagens usam as fotos reais da
+biblioteca (assets/library/, ver library.py e scripts/build_library.py).
 """
 
 from dataclasses import dataclass
@@ -24,7 +24,6 @@ class Product:
     url: str
     about_pt: str
     visual_en: str
-    refs: tuple[str, ...] = ()
 
 
 PRODUCTS = [
@@ -35,7 +34,6 @@ PRODUCTS = [
         "colchões de ar para preenchimento rápido de espaços vazios e para travar e fixar o produto na caixa",
         "translucent plastic film air pillows (individual rectangular inflated cushions, connected in a strip) "
         "used as void fill around the product",
-        ("airplus_void_1.jpg", "airplus_void_3.jpg"),
     ),
     Product(
         "AIRplus Cushion", "AIRplus",
@@ -43,14 +41,12 @@ PRODUCTS = [
         "almofadas de ar em seções com várias câmaras, destacáveis nas perfurações, para acolchoar, travar e fixar",
         "chains of translucent plastic film air cushions, each section quilted into several small inflated chambers, "
         "placed around and under the product",
-        ("airplus_cushion_1.jpg",),
     ),
     Product(
         "AIRplus Bubble", "AIRplus",
         SITE + "embalagem-de-protecao-flexivel/almofadas-de-ar/airplusr/",
         "filme de almofadas de ar para envolver produtos sensíveis, alternativa sob demanda ao plástico bolha",
         "translucent plastic air cushion film with rows of round inflated bubbles, wrapped around the product",
-        ("airplus_wrap_1.jpg",),
     ),
     Product(
         "AIRplus Wrap (filme 28D)", "AIRplus",
@@ -58,7 +54,6 @@ PRODUCTS = [
         "filme de almofadas de ar para envolver e acolchoar produtos sensíveis em toda a volta",
         "translucent plastic air cushion wrapping film made of inflated bubble chambers, wrapped around the product "
         "and lining the box",
-        ("airplus_wrap_1.jpg",),
     ),
     # ---- Linha PAPERplus (papel) ----
     Product(
@@ -66,7 +61,6 @@ PRODUCTS = [
         SITE + "embalagem-de-protecao-flexivel/almofadas-de-papel/paperplusr/paperplusr-classic/",
         "almofadas de papel robustas para acolchoar e travar, ideais para produtos pesados",
         "brown kraft paper cushioning: thick, loosely crumpled paper pads blocking and cushioning a heavy product",
-        ("paperplus_classic_1.png", "paperplus_classic_2.png"),
     ),
     Product(
         "PAPERplus Shooter", "PAPERplus",
@@ -74,14 +68,12 @@ PRODUCTS = [
         "almofadas de papel multicamadas em altíssima velocidade (até 160 m de papel reciclado por minuto) para "
         "preencher espaços vazios",
         "brown kraft multi-layer crumpled paper cushions filling the empty space around the product in the box",
-        ("paperplus_shooter_1.jpg", "paperplus_shooter_2.jpg"),
     ),
     Product(
         "PAPERplus Track", "PAPERplus",
         SITE + "embalagem-de-protecao-flexivel/almofadas-de-papel/paperplusr/paperplusr-track/",
         "sistema compacto de velocidade ultra-alta que produz almofadas de papel em segundos na estação de embalagem",
         "brown kraft paper pads (crumpled paper strips with a regular pleated pattern) filling voids around the product",
-        ("paperplus_track_1.png", "paperplus_track_2.png"),
     ),
     Product(
         "PAPERbubble", "PAPERplus",
@@ -90,7 +82,6 @@ PRODUCTS = [
         "e médios, sem máquina",
         "sheets of brown kraft paper with an embossed honeycomb/air-pocket structure, wrapped around and between "
         "small products",
-        ("paperbubble_1.png", "paperbubble_2.png"),
     ),
     # ---- Linha FOAMplus (espuma de poliuretano expansiva em saco) ----
     Product(
@@ -98,14 +89,12 @@ PRODUCTS = [
         SITE + "embalagem-de-protecao-flexivel/embalagens-de-espuma/foamplusr-bag-packer3/",
         "sistema que produz automaticamente sacos com espuma de poliuretano que se expande e se molda ao produto",
         _FOAM_LOOK,
-        ("foamplus_bag_1.png", "foamplus_bag_2.png"),
     ),
     Product(
         "FOAMplus Bag Packer 2", "FOAMplus",
         SITE + "embalagem-de-protecao-flexivel/embalagens-de-espuma/",
         "sistema que produz sacos com espuma de poliuretano que se expande e se molda ao produto na caixa",
         _FOAM_LOOK,
-        ("foamplus_bag_1.png", "foamplus_bag_2.png"),
     ),
     Product(
         "FOAMplus Hand Packer 2", "FOAMplus",
@@ -115,7 +104,6 @@ PRODUCTS = [
         "a large thin translucent plastic film bag lining the box, filled with cream/off-white expanding "
         "polyurethane foam sprayed from a handheld foam gun, expanding and molding around the product "
         "(exactly like the reference photos)",
-        ("foamplus_hand_1.png", "foamplus_hand_2.png"),
     ),
     # ---- Linha Working Comfort (bancadas ergonômicas) ----
     Product(
@@ -125,7 +113,6 @@ PRODUCTS = [
         "a modern modular ergonomic packing workstation: height-adjustable table, overhead shelves and holders "
         "with everything within reach; on the table only ONE open box with a single type of protective material, "
         "no screens, no labels, no other packaging materials",
-        ("comfort_pack_1.jpg",),
     ),
     Product(
         "COMFORT.ERECT (bancada ergonômica)", "Working Comfort",
@@ -133,7 +120,6 @@ PRODUCTS = [
         "módulo ergonômico para montar caixas de transporte planas com rapidez e facilidade",
         "an ergonomic box-erecting workstation (blue machine table) where flat cardboard blanks are quickly folded "
         "into shipping boxes; no protective material needed in the scene, no screens or labels",
-        ("comfort_erect_1.jpg",),
     ),
     Product(
         "COMFORT.CLOSE (bancada ergonômica)", "Working Comfort",
@@ -141,7 +127,6 @@ PRODUCTS = [
         "módulo ergonômico que fecha e sela as caixas com assistência mecânica após dobrar as abas",
         "an ergonomic box-closing workstation with a compact blue sealing machine taping a closed cardboard box; "
         "no screens or labels",
-        ("comfort_close_1.jpg",),
     ),
     Product(
         "COMFORT.PROTECT (bancada ergonômica)", "Working Comfort",
@@ -149,7 +134,6 @@ PRODUCTS = [
         "módulo que mantém o material de proteção (papel, almofadas de ar ou espuma) sempre ao alcance na bancada",
         "an ergonomic packing workstation with a dispenser keeping ONE type of protective material within reach "
         "above the table, and one open box being filled with that same material; no screens or labels",
-        ("comfort_protect_1.jpg",),
     ),
 ]
 

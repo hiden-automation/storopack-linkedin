@@ -1,15 +1,20 @@
-"""Worker 1: quando a fila está acabando, gera plano (12 temas) → copy → imagem de cada post."""
+"""Worker 1: quando a fila está acabando, gera plano (12 temas) → copy → imagem de cada post.
+
+As imagens partem SEMPRE de uma foto real do produto (biblioteca em assets/library): a IA escolhe a
+foto que combina com o post e só troca o fundo branco de estúdio por um cenário. Caixa, produto e
+material de proteção continuam os da foto real, para nunca desenhar um material que não existe.
+"""
 
 import argparse
 import logging
 import sys
-from functools import lru_cache
+from collections import Counter
 from typing import Literal
 
 from PIL import Image
 from pydantic import BaseModel, Field
 
-from . import catalog, config, gemini, image_compose, notify, store
+from . import catalog, config, gemini, image_compose, library, notify, store
 from .site_context import get_site_context
 
 log = logging.getLogger("generate")
@@ -25,28 +30,6 @@ espuma da Storopack é sempre a FOAMplus, espuma de poliuretano expansiva dentro
 produto. Nunca sugira esses outros materiais.
 Use SOMENTE fatos, números e certificações presentes no contexto do site fornecido; nunca invente dados, \
 clientes, preços ou estatísticas."""
-
-
-# Regras da Storopack para as imagens (vão no prompt e na verificação automática)
-PRODUCT_RULES_PT = (
-    "(1) cada caixa deve conter UM ÚNICO tipo de material de enchimento/proteção (nunca misture, por exemplo, "
-    "almofadas de ar com papel, ou espuma com papel). (2) Todo material de proteção visível (cada almofada de "
-    "ar, cada papel, cada saco de espuma) tem o logotipo da Storopack impresso, pequeno e discreto. "
-    "(3) Os materiais têm suas cores naturais: filme plástico translúcido, papel kraft pardo ou branco, espuma "
-    "clara. Descreva explicitamente na cena qual é o único material."
-)
-PRODUCT_RULES_EN = (
-    "(1) Every box must contain ONLY ONE type of protective material - never mix materials in the same box. "
-    "(2) Every visible piece of protective material (each air cushion, each paper pad, each foam bag) carries "
-    "the Storopack logo from the attached reference image, printed small and subtle in blue: exactly ONE logo "
-    "per piece, placed on its flattest, most visible surface, reproduced exactly as in the reference (same 'S' "
-    "emblem in a circle and the 'STOROpack' wordmark, never altered, misspelled or invented). Do not repeat the "
-    "logo many times and do not print it on folds or wrinkles. (3) Materials keep their natural colors (translucent plastic film, brown kraft "
-    "or white paper, light-colored foam). Cardboard boxes are plain brown corrugated cardboard without print. "
-    "(4) Machines, dispensers and equipment are plain, with NO printed logo, brand name, text or labels on them, "
-    "and there are NO computer screens, monitors or displays in the scene (the logo appears only on the "
-    "protective material)."
-)
 
 ProductName = Literal[catalog.NAMES]  # type: ignore[valid-type]
 
@@ -65,7 +48,6 @@ class Copy(BaseModel):
     title: str = Field(description="Título curto e impactante para a imagem, no máximo 8 palavras, sem hashtags nem emojis")
     caption: str = Field(description="Legenda completa do post, 800 a 1500 caracteres")
     hashtags: list[str] = Field(description="3 a 5 hashtags relevantes, sem o caractere #")
-    image_prompt: str = Field(description="Descrição em inglês de uma cena fotográfica que represente o assunto")
 
 
 def _plan_prompt(site: str, previous_topics: list[str], n: int) -> str:
@@ -98,109 +80,123 @@ Regras da legenda:
 - Termine com uma chamada para ação convidando a conversar comigo ou comentar.
 - Não inclua as hashtags na legenda (elas vão no campo próprio).
 
-Regras do image_prompt: cena realista e profissional relacionada ao assunto (ex.: bancada de embalagem, \
-produto sendo protegido dentro de caixa aberta, centro de distribuição), sem pessoas em close, sem texto, \
-letras ou números. O material de proteção mostrado deve ser exatamente: {product.visual_en}. \
-Nunca descreva EPE, isopor/EPS, blocos ou moldes de espuma recortados.
-REGRAS DE PRODUTO (obrigatórias): {PRODUCT_RULES_PT}
-
 === CONTEXTO DO SITE ===
 {site}"""
 
 
-def _image_prompt(scene: str, product: catalog.Product, n_refs: int) -> str:
+# ---------------------------------------------------------------- foto real + cenário
+
+class PhotoChoice(BaseModel):
+    photo: str = Field(description="Nome do arquivo da foto escolhida (exatamente como na lista)")
+    scene: str = Field(description="Em inglês: o cenário ao redor da caixa (ambiente, superfície, luz), sem pessoas, telas ou textos")
+
+
+def _photo_usage(posts: list[dict]) -> Counter:
+    return Counter(p.get("photo") for p in posts if p.get("photo"))
+
+
+def _choose_photo(post: dict, usage: Counter) -> None:
+    """A IA escolhe, entre as fotos reais do produto, a que melhor combina com o post, e descreve o cenário."""
+    candidates = library.for_product(post["product"])
+    if not candidates:
+        raise RuntimeError(f"sem fotos na biblioteca para {post['product']}")
+    lines = "\n".join(
+        f"- {c['file']} | tipo: {c['kind']} | usada {usage[c['file']]}x | {c['description']}" for c in candidates
+    )
+    choice = gemini.generate_json(
+        f"""Escolha a foto real do produto que melhor ilustra este post de LinkedIn e descreva o cenário.
+
+Post: {post['title']} — {post['topic']}
+Trecho da legenda: {(post.get('caption') or '')[:600]}
+
+Fotos disponíveis de {post['product']}:
+{lines}
+
+Regras: prefira fotos do tipo application (material protegendo um produto na caixa) quando o post fala de \
+proteção, e machine/workstation quando fala de equipamento ou bancada; entre fotos adequadas, prefira as \
+menos usadas. O cenário (scene) é só o ambiente em volta da foto: por exemplo uma bancada de embalagem num \
+centro de distribuição de e-commerce, uma área de expedição de peças automotivas etc., coerente com o post; \
+sem pessoas, sem telas, sem textos, sem outros materiais de embalagem.""",
+        PhotoChoice,
+    )
+    entry = library.get(choice.photo, post["product"]) or min(candidates, key=lambda c: usage[c["file"]])
+    post["photo"] = entry["file"]
+    post["scene"] = choice.scene
+    usage[entry["file"]] += 1
+
+
+def _edit_prompt(scene: str) -> str:
     return (
-        "The FIRST attached image is the official Storopack logo. "
-        f"The next {n_refs} attached image(s) are REAL product photos of {product.name} from storopack.com.br: use "
-        "them ONLY as the visual reference for how the protective material looks (shape, texture, color, how it "
-        "sits in the box) and reproduce that material faithfully; create a NEW photograph (different product "
-        "being protected, different angle and setting), do not copy the reference photos. "
-        f"Scene: {scene}. The protective material shown is {product.visual_en}. "
-        "Professional high-quality commercial photograph, clean modern industrial and logistics aesthetic, soft "
-        "natural lighting, shallow depth of field, color palette dominated by corporate blue (#0054A3) and white "
-        "tones. No text, letters, numbers, labels or brands anywhere EXCEPT the Storopack logo on the protective "
-        f"material. STRICT PRODUCT RULES: {PRODUCT_RULES_EN} NEVER show any of these materials, which Storopack "
-        f"does not sell: {catalog.FORBIDDEN_MATERIALS_EN}."
+        "Edit this real product photo. Keep EVERYTHING in the foreground exactly as it is: the cardboard box, the "
+        "product inside it, the protective packaging material and any machine or equipment must stay pixel-faithful "
+        "(same shapes, wrinkles, textures, colors, prints, size, position, camera angle and perspective; do not "
+        "redraw, smooth, enlarge, restyle or add anything to them). Only replace the plain white studio background "
+        f"with this realistic setting: {scene}. Extend the setting naturally around the subject to fill a 4:3 frame, "
+        "keep the subject centered and fully visible, add a realistic contact shadow and matching soft natural "
+        "light, slightly blurred background with clean blue and white accents. Add NO people, screens, text, "
+        "labels, logos or other packaging materials."
     )
 
 
-class ImageCheck(BaseModel):
-    forbidden_material: bool = Field(description="Aparece EPE, isopor/EPS, ou espuma rígida recortada/moldada em bloco")
-    mixed_fillings: bool = Field(description="Alguma caixa tem mais de um tipo de material de proteção misturado")
-    wrong_material: bool = Field(description="O material de proteção não se parece com o das fotos reais do produto")
-    materials_without_logo: bool = Field(description="Há material de proteção bem visível sem o logo da Storopack")
-    logo_distorted: bool = Field(description="Algum logo impresso está deformado, ilegível ou com letras erradas")
-    other_text_or_logos: bool = Field(description="Há texto, números ou logos que não sejam o logo da Storopack")
-    explanation: str = Field(description="Explicação curta do que foi observado")
+class EditCheck(BaseModel):
+    subject_changed: bool = Field(description="Caixa, produto ou material de proteção ficaram diferentes da foto original")
+    items_added: bool = Field(description="Foram adicionados materiais de embalagem, produtos, pessoas ou telas")
+    text_added: bool = Field(description="Apareceu texto, número ou logotipo que não existe na foto original")
+    subject_cropped: bool = Field(description="O assunto principal ficou cortado ou parcialmente fora do quadro")
+    explanation: str = Field(description="Explicação curta")
 
 
-def _check_question(product: catalog.Product, n_refs: int) -> str:
-    return f"""Você é um revisor de imagens da Storopack, fabricante de embalagens de proteção. A PRIMEIRA \
-imagem é o logotipo oficial da Storopack. As {n_refs} imagens seguintes são FOTOS REAIS do produto \
-{product.name} (referência do material correto). A ÚLTIMA imagem é a gerada por IA, que você deve revisar. \
-Material esperado: {product.visual_en}. Responda sobre a ÚLTIMA imagem:
-- forbidden_material: true se aparece qualquer material que a Storopack NÃO trabalha: {catalog.FORBIDDEN_MATERIALS_EN}. \
-Atenção especial: espuma em bloco/placa branca ou cinza com cavidade recortada no formato do produto é EPE/EPS \
-e deve ser reprovada; a espuma da Storopack (FOAMplus) é sempre macia, arredondada, creme, dentro de sacos de \
-filme plástico, moldada organicamente ao produto.
-- mixed_fillings: true se qualquer caixa contém mais de um tipo de material de proteção ao mesmo tempo.
-- wrong_material: true se o material de proteção visível NÃO se parece com o das fotos reais de referência \
-(formato, textura, cor). Se o produto esperado é uma bancada/estação de trabalho, compare a bancada.
-- materials_without_logo: true se alguma peça de material de proteção grande, em primeiro plano e com a face \
-bem visível (almofada, papel, saco de espuma) NÃO tem o logo da Storopack. Peças pequenas, ao fundo ou com a \
-face escondida pelo ângulo/dobra não contam. Se não há material de proteção visível, false.
-- logo_distorted: true se algum logo impresso estiver claramente deformado, com letras erradas ou que não \
-pareça o da referência (emblema 'S' num círculo + 'STOROpack').
-- other_text_or_logos: true se há texto legível, números ou logotipos que não sejam o da Storopack \
-(pequenas marcações técnicas em relevo numa peça metálica não contam).
-Caixas de papelão pardo lisas são normais."""
+EDIT_CHECK = f"""A PRIMEIRA imagem é uma foto real e oficial de produto da Storopack (fundo branco). A SEGUNDA é \
+uma edição feita por IA que deveria apenas trocar o fundo por um cenário, mantendo o resto idêntico. Compare:
+- subject_changed: true se a caixa, o produto dentro dela ou o material de proteção (almofadas de ar, papel, \
+espuma em saco, máquina) mudaram de formato, textura, cor, quantidade, impressões ou posição em relação à \
+original. Pequenas diferenças de iluminação e sombra são aceitáveis.
+- items_added: true se foram adicionados outros materiais de embalagem, produtos, pessoas ou telas \
+(especialmente {catalog.FORBIDDEN_MATERIALS_EN}).
+- text_added: true se aparece texto, número ou logotipo que não existe na foto original.
+- subject_cropped: true se o assunto principal ficou cortado ou parcialmente fora do quadro."""
+
+MAX_EDIT_ATTEMPTS = 3
+PHOTO_ASPECT = image_compose.W / image_compose.PHOTO_H
 
 
-MAX_IMAGE_ATTEMPTS = 5
-
-
-@lru_cache
-def _logo_reference() -> Image.Image:
-    """Logo oficial com margem branca, enviado ao Gemini como referência."""
-    logo = Image.open(config.DOCS / "img" / "logo_storopack_header.png").convert("RGB")
-    ref = Image.new("RGB", (logo.width + 80, logo.height + 80), "white")
-    ref.paste(logo, (40, 40))
-    return ref
-
-
-@lru_cache
-def _product_references(name: str) -> tuple[Image.Image, ...]:
-    """Fotos reais do produto (assets/references), reduzidas para economizar tokens."""
-    images = []
-    for file in catalog.BY_NAME[name].refs:
-        img = Image.open(config.ASSETS / "references" / file).convert("RGB")
-        img.thumbnail((1024, 1024))
-        images.append(img)
-    return tuple(images)
+def _fit_studio(photo: Image.Image) -> Image.Image:
+    """Plano B: a foto real de estúdio, sem edição, com margem branca no formato da arte."""
+    w, h = photo.size
+    if w / h > PHOTO_ASPECT:
+        canvas = Image.new("RGB", (w, round(w / PHOTO_ASPECT)), "white")
+    else:
+        canvas = Image.new("RGB", (round(h * PHOTO_ASPECT), h), "white")
+    canvas.paste(photo, ((canvas.width - w) // 2, (canvas.height - h) // 2))
+    return canvas
 
 
 def _make_image(post: dict) -> None:
-    """Gera a ilustração com o logo e fotos reais do produto como referência; só aceita se passar na verificação."""
-    product = catalog.BY_NAME[post["product"]]
-    refs = [_logo_reference(), *_product_references(product.name)]
-    n = len(refs) - 1
-    problems = ""
-    for attempt in range(1, MAX_IMAGE_ATTEMPTS + 1):
-        background = gemini.generate_image(_image_prompt(post["image_prompt"], product, n), references=refs)
-        check = gemini.judge_image(background, _check_question(product, n), ImageCheck, references=refs)
-        if not (check.forbidden_material or check.mixed_fillings or check.wrong_material
-                or check.materials_without_logo or check.logo_distorted or check.other_text_or_logos):
-            break
-        problems = check.explanation
-        log.warning("imagem de %s reprovada (tentativa %d): %s", post["id"], attempt, problems)
+    """Monta a imagem a partir da foto real escolhida; a IA só troca o fundo e é verificada contra a original."""
+    entry = library.get(post["photo"], post["product"])
+    if entry is None:
+        raise RuntimeError(f"foto {post.get('photo')} não está na biblioteca")
+    photo = library.load(entry)
+    if not entry["white_background"]:
+        background = photo  # já é uma foto real com cenário (ex.: bancadas)
     else:
-        raise RuntimeError(f"imagem reprovada nas regras de produto após {MAX_IMAGE_ATTEMPTS} tentativas: {problems}")
+        background = None
+        for attempt in range(1, MAX_EDIT_ATTEMPTS + 1):
+            edited = gemini.generate_image(_edit_prompt(post["scene"]), aspect_ratio="4:3", references=[photo])
+            check = gemini.judge_image(edited, EDIT_CHECK, EditCheck, references=[photo])
+            if not (check.subject_changed or check.items_added or check.text_added or check.subject_cropped):
+                background = edited
+                break
+            log.warning("cenário de %s reprovado (tentativa %d): %s", post["id"], attempt, check.explanation)
+        if background is None:
+            log.warning("usando a foto de estúdio original em %s", post["id"])
+            background = _fit_studio(photo)
     rel = f"images/{post['id']}.png"
     image_compose.compose(background, post["title"], config.DOCS / rel)
     post["image_path"] = rel
 
 
-def _fill_post(post: dict, site: str) -> None:
+def _fill_post(post: dict, site: str, usage: Counter) -> None:
     try:
         if not post.get("caption"):
             copy = gemini.generate_json(_copy_prompt(site, post), Copy, SYSTEM)
@@ -208,8 +204,9 @@ def _fill_post(post: dict, site: str) -> None:
                 title=copy.title.strip(),
                 caption=copy.caption.strip(),
                 hashtags=[h.lstrip("#").replace(" ", "") for h in copy.hashtags],
-                image_prompt=copy.image_prompt,
             )
+        if not post.get("photo"):
+            _choose_photo(post, usage)
         if not post.get("image_path"):
             _make_image(post)
         post["status"] = "pending"
@@ -223,12 +220,13 @@ def _fill_post(post: dict, site: str) -> None:
 def run(force: bool = False, limit: int | None = None, retry_failed: bool = False) -> int:
     state = store.load_state()
     posts = store.load_posts()
+    usage = _photo_usage(posts)
 
     if retry_failed:
         site = get_site_context()
         failed = [p for p in posts if p["status"] == "failed"]
         for post in failed:
-            _fill_post(post, site)
+            _fill_post(post, site, usage)
             store.save_posts(posts)
         log.info("reprocessados %d posts com falha", len(failed))
         fixed = sum(1 for p in failed if p["status"] == "pending")
@@ -268,7 +266,8 @@ def run(force: bool = False, limit: int | None = None, retry_failed: bool = Fals
                     "title": None,
                     "caption": None,
                     "hashtags": [],
-                    "image_prompt": None,
+                    "photo": None,
+                    "scene": None,
                     "image_path": None,
                     "status": "generating",
                     "created_at": created,
@@ -286,7 +285,7 @@ def run(force: bool = False, limit: int | None = None, retry_failed: bool = Fals
     for post in posts:
         if post["cycle"] == cycle and post["status"] == "generating":
             log.info("gerando %s: %s", post["id"], post["topic"])
-            _fill_post(post, site)
+            _fill_post(post, site, usage)
             store.save_posts(posts)
 
     state.update(generation_status="done", last_generation_at=store.iso(store.now()))

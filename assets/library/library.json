@@ -1,0 +1,568 @@
+[
+  {
+    "file": "ap_bio_hc_buehne.jpg",
+    "product": "AIRplus Void",
+    "kind": "application",
+    "white_background": true,
+    "description": "Caixa aberta de e-commerce sobre fundo branco com produtos de beleza protegidos por almofadas de ar AIRplus Bio (Void) nas laterais.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/f/d/csm_AP_Bio_HC_Buehne_640x590_5a74baac38.jpg"
+  },
+  {
+    "file": "ap_bio_hc_product_and_label.jpg",
+    "product": "AIRplus Void",
+    "kind": "application",
+    "white_background": true,
+    "description": "Caixa de envio aberta em ângulo superior mostrando uma garrafa de molho/ketchup protegida por almofadas de ar AIRplus BIO, acompanhada do selo de certificação ClimatePartner na parte inferior.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/1/3/csm_AP_Bio_HC_Product_and_Label_505x505px_f4c913a4c0.jpg"
+  },
+  {
+    "file": "comfort_pack.jpg",
+    "product": "COMFORT.PACK (bancadas ergonômicas)",
+    "kind": "workstation",
+    "white_background": true,
+    "description": "Estação de trabalho ergonômica COMFORT.PACK equipada com silo aéreo integrado que armazena e dispensa almofadas de ar azuis AIRplus sobre a bancada.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/3/3/csm_COMFORT.PACK_235a8c3064.png"
+  },
+  {
+    "file": "comfort_pack2.jpg",
+    "product": "COMFORT.PACK (bancadas ergonômicas)",
+    "kind": "workstation",
+    "white_background": true,
+    "description": "Operador utilizando estação de embalagem ergonômica integrada com silo suspenso e dispensador de almofadas de ar infladas na cor azul, em plano médio com fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/c/6/csm_COMFORT.PACK2_5089f95c7c.png"
+  },
+  {
+    "file": "image_slider_ap_bio_hc_16p.jpg",
+    "product": "AIRplus Cushion",
+    "kind": "consumable",
+    "white_background": true,
+    "description": "Tira de almofadas de ar infladas AIRplus BIO com impressões em verde, exibida sobre fundo branco em ângulo diagonal.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/e/4/csm_Image-Slider_AP_Bio_HC_16p_1280x580px_f7978644fe.jpg"
+  },
+  {
+    "file": "image_slider_ap_bio_hc_16p_consumable_1.jpg",
+    "product": "AIRplus Cushion",
+    "kind": "application",
+    "white_background": true,
+    "description": "Visão superior oblíqua de uma caixa de papelão aberta sobre fundo branco, mostrando pequenas caixas e embalagens protegidas e calçadas por almofadas de ar infláveis AIRplus BIO.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/9/6/csm_Image-Slider_AP_Bio_HC_16p_Consumable_1_1280x580px_07ab029526.jpg"
+  },
+  {
+    "file": "image_slider_ap_bio_hc_16p_consumable_2.jpg",
+    "product": "AIRplus Cushion",
+    "kind": "application",
+    "white_background": true,
+    "description": "Visão superior inclinada de caixa de papelão aberta em fundo branco, mostrando um produto eletrônico protegido e calçado com almofadas de ar AIRplus BIO Cushion.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/c/2/csm_Image-Slider_AP_Bio_HC_16p_Consumable_2_1280x580px_4ebc5b20a3.jpg"
+  },
+  {
+    "file": "p_pl_working_comfort_comfort_protect.jpg",
+    "product": "COMFORT.PROTECT (bancada ergonômica)",
+    "kind": "workstation",
+    "white_background": false,
+    "description": "Operador trabalhando em bancada ergonômica de embalagem com esteira transportadora integrada, impressora e dispensador superior de almofadas de papel para empacotamento.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/3/3/csm_P_PL_Working_Comfort_Comfort.Protect_650x295_f1219ed141.jpg"
+  },
+  {
+    "file": "p_pl_working_comfort_comfort_close.jpg",
+    "product": "COMFORT.CLOSE (bancada ergonômica)",
+    "kind": "machine",
+    "white_background": false,
+    "description": "Operadora inserindo caixa de papelão em esteira da máquina seladora de caixas COMFORT.CLOSE da Storopack, em plano médio com fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/8/5/csm_P_PL_Working_Comfort_Comfort_Close_650x295_fa289368fb.jpg"
+  },
+  {
+    "file": "p_pl_working_comfort_comfort_erect.jpg",
+    "product": "COMFORT.ERECT (bancada ergonômica)",
+    "kind": "workstation",
+    "white_background": true,
+    "description": "Renderização da bancada ergonômica COMFORT.ERECT da Storopack na cor azul, com uma caixa de papelão aberta sobre a superfície de trabalho em fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/8/9/csm_P_PL_Working_Comfort_Comfort_Erect_650x295_0f7d863994.jpg"
+  },
+  {
+    "file": "p_pl_working_comfort_comfort_pack.jpg",
+    "product": "COMFORT.PACK (bancadas ergonômicas)",
+    "kind": "workstation",
+    "white_background": false,
+    "description": "Operadora utilizando estação de trabalho ergonômica COMFORT.PACK equipada com dispensador de almofadas de ar, prateleiras para caixas e suporte inclinado para embalo",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/2/6/csm_P_PL_Working_Comfort_Comfort_Pack_650x295_dd68c07f19.jpg"
+  },
+  {
+    "file": "paperbubble_endless_application.jpg",
+    "product": "PAPERbubble",
+    "kind": "application",
+    "white_background": true,
+    "description": "Vista superior de caixa de papelão aberta sobre fundo branco, protegendo produto com folhas de papel bolha kraft PAPERbubble.",
+    "source": "https://www.storopack.de/fileadmin/_processed_/6/0/csm_PAPERbubble_Endless_Application_99d61935b4.jpg"
+  },
+  {
+    "file": "paperplus_track_swivel_arm_sliderbild.jpg",
+    "product": "PAPERplus Track",
+    "kind": "machine",
+    "white_background": true,
+    "description": "Máquina PAPERplus Track montada em braço articulado acoplada a suporte de estação de embalagem, dispensando almofada de papel kraft amarfanhado, ao lado de prateleira com caixas de papelão sobre fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/5/9/csm_PAPERplus_Track_Swivel_Arm_Sliderbild_1280x580px_d3db616fc3.jpg"
+  },
+  {
+    "file": "pp_am_void_50_recycled_application_1881.jpg",
+    "product": "AIRplus Void",
+    "kind": "application",
+    "white_background": true,
+    "description": "Caixa de papelão aberta para e-commerce contendo produtos eletrônicos embalados protegidos por almofadas de ar AIRplus Void azuis (filme reciclado), em vista superior angulada com fundo branco.",
+    "source": "https://www.storopack.com/fileadmin/_processed_/e/1/csm_PP_AM_Void_50__Recycled_application_1881_1280x580px_77f5fee282.jpg"
+  },
+  {
+    "file": "pp_am_void_50_recycled_application_1884.jpg",
+    "product": "AIRplus Void",
+    "kind": "application",
+    "white_background": true,
+    "description": "Caixa de envio aberta em fundo branco com produtos embalados e almofadas de ar azuis (material reciclado AIRmove²) preenchendo o espaço vazio.",
+    "source": "https://www.storopack.com/fileadmin/_processed_/a/9/csm_PP_AM_Void_50__Recycled_application_1884_1280x580px_56000289ed.jpg"
+  },
+  {
+    "file": "pp_am_void_50_recycled_consumable_1890.jpg",
+    "product": "AIRplus Void",
+    "kind": "consumable",
+    "white_background": false,
+    "description": "Close-up em fundo branco de almofadas de ar infladas na cor azul claro (AIRmove² Void 50% reciclado), exibindo detalhes da impressão e do material.",
+    "source": "https://www.storopack.com/fileadmin/_processed_/6/7/csm_PP_AM_Void_50__Recycled_consumable_1890_650x295px_8513b54cbc.jpg"
+  },
+  {
+    "file": "pp_ap_cushion_16p_100_recycled_application.jpg",
+    "product": "AIRplus Cushion",
+    "kind": "application",
+    "white_background": true,
+    "description": "Visão superior em ângulo de uma caixa de papelão aberta contendo produtos eletrônicos (tablet, celular e acessórios) protegidos nas laterais por almofadas de ar AIRplus Cushion sobre fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/b/e/csm_PP_AP_Cushion_16P_100___recycled_application_1280x580_Zeichenflaeche_1_035003ac41.jpg"
+  },
+  {
+    "file": "pp_ap_void_100_recycled_application_0195.jpg",
+    "product": "AIRplus Void",
+    "kind": "application",
+    "white_background": true,
+    "description": "Visão superior angular de uma caixa de papelão aberta com almofadas de ar infladas AIRplus Void (recicladas) preenchendo o espaço vazio e protegendo uma embalagem interna.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/e/d/csm_PP_AP_Void_100__Recycled_application_0195_1280x580px_ae781a643b.jpg"
+  },
+  {
+    "file": "pp_ap_void_100_recycled_consumable_0198.jpg",
+    "product": "AIRplus Void",
+    "kind": "consumable",
+    "white_background": true,
+    "description": "Faixa de almofadas de ar AIRplus Void infladas enrolada em espiral sobre fundo branco, destacando o material plástico transparente 100% reciclado, sem produto embalado.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/a/c/csm_PP_AP_Void_100__Recycled_consumable_0198_1280x580px_be4aa5e09c.jpg"
+  },
+  {
+    "file": "pp_ap_void_30_recycled_extra_light_consumable_1888.jpg",
+    "product": "AIRplus Void",
+    "kind": "consumable",
+    "white_background": false,
+    "description": "Close-up de três almofadas de ar AIRplus Void com 30% de material reciclado impressas, conectadas em sequência sobre fundo branco",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/7/0/csm_PP_AP_Void_30__Recycled_Extra_Light_consumable_1888_low_res_3cc8099cab.jpg"
+  },
+  {
+    "file": "pp_ap_void_bio_home_compostable_application_9037.jpg",
+    "product": "AIRplus Void",
+    "kind": "application",
+    "white_background": true,
+    "description": "Caixa de e-commerce aberta sobre fundo branco, mostrando cosméticos e pequenos frascos protegidos por almofadas de ar AIRplus BIO (Void) nas laterais.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/5/f/csm_PP_AP_Void_Bio_Home_Compostable_application_9037_1280x580_616b652751.jpg"
+  },
+  {
+    "file": "pp_ap_void_bio_home_compostable_application_9042.jpg",
+    "product": "AIRplus Void",
+    "kind": "application",
+    "white_background": true,
+    "description": "Caixa de papelão aberta vista em ângulo superior com fundo branco, mostrando uma garrafa de molho protegida por almofadas de ar AIRplus BIO (material biodegradável).",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/2/c/csm_PP_AP_Void_Bio_Home_Compostable_application_9042_1280x580_f7f08a5260.jpg"
+  },
+  {
+    "file": "pp_ap_void_bio_home_compostable_consumable_9057.jpg",
+    "product": "AIRplus Void",
+    "kind": "consumable",
+    "white_background": true,
+    "description": "Faixa vertical de almofadas de ar AIRplus BIO infladas sobre fundo branco, sem produto embalado.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/f/6/csm_PP_AP_Void_Bio_Home_Compostable_consumable_9057_low_res_274c59f079.jpg"
+  },
+  {
+    "file": "pp_fp_application_motive2_freigest.jpg",
+    "product": "FOAMplus Bag Packer 3",
+    "kind": "application",
+    "white_background": true,
+    "description": "Caixa de papelão aberta vista em perspectiva superior contendo um motor industrial metálico devidamente protegido por almofadas de espuma expansiva FOAMplus.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/a/1/csm_PP_FP_application_motive2_freigest_1280x580px_004c67716b.png"
+  },
+  {
+    "file": "pp_fp_bag_packer3_machine_6327.jpg",
+    "product": "FOAMplus Bag Packer 3",
+    "kind": "machine",
+    "white_background": true,
+    "description": "Visão geral de estúdio da máquina FOAMplus Bag Packer em suporte com rodízios, conectada a dois tambores de produtos químicos sobre palete de contenção em fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/1/9/csm_PP_FP_Bag_Packer3_machine_6327_1280x580px_c46f8e227a.png"
+  },
+  {
+    "file": "pp_fp_bag_packer3_machine_6336.jpg",
+    "product": "FOAMplus Bag Packer 3",
+    "kind": "machine",
+    "white_background": true,
+    "description": "Operador manuseando a máquina FOAMplus Bag Packer produzindo bolsas de espuma expansiva protetora, conectada a dois tambores de componentes químicos, em estúdio com fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/1/b/csm_PP_FP_Bag_Packer3_machine_6336_1280x580px_b575d28c48.png"
+  },
+  {
+    "file": "pp_fp_bag_packer_cushion_application.jpg",
+    "product": "FOAMplus Bag Packer 3",
+    "kind": "application",
+    "white_background": true,
+    "description": "Vista superior de uma caixa de papelão aberta contendo uma cuba de cerâmica branca protegida por bolsas de espuma expansiva FOAMplus.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/9/b/csm_PP_FP_Bag_Packer___cushion_application_1280x580px_a1a12af89a.png"
+  },
+  {
+    "file": "pp_fp_bag_packer_tube_application.jpg",
+    "product": "FOAMplus Bag Packer 3",
+    "kind": "application",
+    "white_background": true,
+    "description": "Painel elétrico embalado dentro de uma caixa de papelão protegido lateralmente e no topo por almofadas tubulares de espuma FOAMplus.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/7/7/csm_PP_FP_Bag_Packer___tube_application_low_res_0cd65c195d.jpg"
+  },
+  {
+    "file": "pp_fp_hand_packer2_application_1.jpg",
+    "product": "FOAMplus Hand Packer 2",
+    "kind": "application",
+    "white_background": true,
+    "description": "Aplicação de espuma expansível FOAMplus com pistola manual diretamente em uma caixa de papelão forrada com filme plástico, em ângulo superior diagonal sobre fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/e/5/csm_PP_FP_Hand_Packer2_application_1_1280x580px_3d9b58ee24.png"
+  },
+  {
+    "file": "pp_fp_hand_packer2_application_3.jpg",
+    "product": "FOAMplus Hand Packer 2",
+    "kind": "application",
+    "white_background": true,
+    "description": "Visão aérea em ângulo de uma caixa de papelão aberta sobre fundo branco, contendo almofada de espuma expansível FOAMplus moldada sob medida para proteção e amortecimento de uma peça interna.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/5/3/csm_PP_FP_Hand_Packer2_application_3_1280x580px_281297bfba.png"
+  },
+  {
+    "file": "pp_fp_hand_packer2_application_4.jpg",
+    "product": "FOAMplus Hand Packer 2",
+    "kind": "application",
+    "white_background": true,
+    "description": "Caixa de papelão aberta em plano superior/diagonal, preenchida com almofada de espuma expansiva FOAMplus moldada cobrindo e protegendo o conteúdo para envio.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/c/9/csm_PP_FP_Hand_Packer2_application_4_1280x580px_fde11cfc03.png"
+  },
+  {
+    "file": "pp_fp_hand_packer2_machine_01.jpg",
+    "product": "FOAMplus Hand Packer 2",
+    "kind": "machine",
+    "white_background": true,
+    "description": "Duas perspectivas do sistema de proteção com espuma expansiva FOAMplus Hand Packer da Storopack, incluindo painel de controle, pistola aplicadora e tambores sobre bacia de contenção em fundo branco.",
+    "source": "https://www.storopack.com/fileadmin/_processed_/5/1/csm_PP_FP_Hand_Packer2_machine_1280x580px_01_73fb0166aa.png"
+  },
+  {
+    "file": "pp_pb_paperbubble_0746.jpg",
+    "product": "PAPERbubble",
+    "kind": "consumable",
+    "white_background": true,
+    "description": "Folhas de papel protetor PAPERbubble sobrepostas com uma parte enrolada sobre fundo branco, destacando o formato em placa e a textura com bolhas de ar para amortecimento.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/1/7/csm_PP_PB_PAPERbubble_0746_1280x580px_7a1626c61f.png"
+  },
+  {
+    "file": "pp_pb_paperbubble_application_0758.jpg",
+    "product": "PAPERbubble",
+    "kind": "application",
+    "white_background": true,
+    "description": "Caixa de e-commerce aberta contendo uma caneca branca e caixas de chá envolvidas e acomodadas com o papel protetor PAPERbubble (papel bolha ecológico), fotografada em ângulo plongeante sobre fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/b/d/csm_PP_PB_PAPERbubble_application_0758_1280x580px_16de6ea60b.png"
+  },
+  {
+    "file": "pp_pb_paperbubble_application_0761.jpg",
+    "product": "PAPERbubble",
+    "kind": "application",
+    "white_background": true,
+    "description": "Porta-retrato protegido com papel bolha PAPERbubble dentro de uma caixa de papelão aberta, fotografado em ângulo superior com fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/7/d/csm_PP_PB_PAPERbubble_application_0761_1280x580px_6f7bc7bf14.png"
+  },
+  {
+    "file": "pp_pb_paperbubble_application_0763.jpg",
+    "product": "PAPERbubble",
+    "kind": "application",
+    "white_background": true,
+    "description": "Caixa de papelão aberta vista em ângulo superior contendo papel protetor PAPERbubble (papel kraft em relevo de bolhas) forrando o fundo e as laterais para proteger um impresso ou quadro colorido.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/c/3/csm_PP_PB_PAPERbubble_application_0763_1280x580px_9d620e9757.png"
+  },
+  {
+    "file": "pp_pb_paperbubble_white_application_0759.jpg",
+    "product": "PAPERbubble",
+    "kind": "application",
+    "white_background": true,
+    "description": "Caixa de envio aberta exibindo frasco de spray de vidro âmbar e escova de dentes protegidos com papel acolchoado PAPERbubble sobre fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/8/e/csm_PP_PB_PAPERbubble_white_application_0759_1280x580px_c21a2c1305.png"
+  },
+  {
+    "file": "pp_pl_wat_machine_0595.jpg",
+    "product": "COMFORT.PACK (bancadas ergonômicas)",
+    "kind": "workstation",
+    "white_background": false,
+    "description": "Bancada ergonômica ajustável para embalagem com sistema integrado de dispensador de fita adesiva de papel sob a mesa.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/6/5/csm_PP_PL_WAT_machine_0595_low_res_ba287c90c0.jpg"
+  },
+  {
+    "file": "pp_pp_classic_machine_front_motive1.jpg",
+    "product": "PAPERplus Classic",
+    "kind": "machine",
+    "white_background": true,
+    "description": "Máquina PAPERplus Classic montada em suporte metálico com rodízios e pedal, dispensando almofada de papel kraft para preenchimento, em fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/f/6/csm_PP_PP_Classic___machine_front_motive1_1280x580px_4df6e82470.png"
+  },
+  {
+    "file": "pp_pp_classic_application_motive10.jpg",
+    "product": "PAPERplus Classic",
+    "kind": "application",
+    "white_background": true,
+    "description": "Visão superior em ângulo de uma caixa de papelão aberta contendo uma maleta de ferramentas verde protegida por almofadas de papel kraft PAPERplus Classic sobre fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/6/0/csm_PP_PP_Classic_application_motive10_1280x580px_2bbaa5c435.png"
+  },
+  {
+    "file": "pp_pp_classic_application_motive11.jpg",
+    "product": "PAPERplus Classic",
+    "kind": "application",
+    "white_background": true,
+    "description": "Caixa de papelão aberta em fundo branco vista de cima, mostrando uma peça metálica cilíndrica protegida e calçada nos cantos por almofadas espessas de papel kraft PAPERplus Classic.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/f/9/csm_PP_PP_Classic_application_motive11_1280x580px_617974a22f.png"
+  },
+  {
+    "file": "pp_pp_classic_application_motive6.jpg",
+    "product": "PAPERplus Classic",
+    "kind": "application",
+    "white_background": true,
+    "description": "Equipamento eletrônico industrial acondicionado em caixa de papelão aberta, calçado por almofadas de papel kraft PAPERplus Classic, em ângulo superior contra fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/7/d/csm_PP_PP_Classic_application_motive6_1280x580px_c482959a95.png"
+  },
+  {
+    "file": "pp_pp_classic_consumable_0974.jpg",
+    "product": "PAPERplus Classic",
+    "kind": "consumable",
+    "white_background": false,
+    "description": "Foto em close-up focada na textura da almofada de papel kraft PAPERplus Classic amassado sobre fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/3/0/csm_PP_PP_Classic_consumable_0974_low_res_4090ab592e.jpg"
+  },
+  {
+    "file": "pp_pp_classic_cx_application_1709_imageslider_1.jpg",
+    "product": "PAPERplus Classic",
+    "kind": "application",
+    "white_background": true,
+    "description": "Visão superior em ângulo de uma caixa de papelão aberta com fundo branco, mostrando uma peça metálica automotiva protegida por almofadas espessas de papel kraft vincado (PAPERplus Classic).",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/a/f/csm_PP_PP_Classic_CX_application_1709_Imageslider_1280x580px_1_2876192cef.png"
+  },
+  {
+    "file": "pp_pp_classic_cx_application_imageslider_2.jpg",
+    "product": "PAPERplus Classic",
+    "kind": "application",
+    "white_background": true,
+    "description": "Visão superior angular em fundo branco de uma caixa de papelão aberta contendo produtos protegidos por almofadas de papel kraft amassado (PAPERplus Classic), com uma tira de papel apoiada sobre a borda.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/0/8/csm_PP_PP_Classic_CX_application_Imageslider_1280x580px_2_24fde4fceb.png"
+  },
+  {
+    "file": "pp_pp_classic_cx_application_imageslider_5.jpg",
+    "product": "PAPERplus Classic",
+    "kind": "consumable",
+    "white_background": true,
+    "description": "Almofada de papel kraft amassado (PAPERplus Classic) curvada sobre fundo branco isolado, mostrando a textura e o volume do material de proteção.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/f/e/csm_PP_PP_Classic_CX_application_Imageslider_1280x580px_5_5262abb5d8.png"
+  },
+  {
+    "file": "pp_pp_classic_cx_application_teaser.jpg",
+    "product": "PAPERplus Classic",
+    "kind": "consumable",
+    "white_background": true,
+    "description": "Almofada de papel kraft amassado PAPERplus Classic curvada sobre fundo branco isolado, em plano médio com foco seletivo.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/c/5/csm_PP_PP_Classic_CX_application_Teaser_650x295px_28fcdab8aa.png"
+  },
+  {
+    "file": "pp_pp_classic_cx_machine_0539_european_stand.jpg",
+    "product": "PAPERplus Classic",
+    "kind": "machine",
+    "white_background": true,
+    "description": "Máquina PAPERplus Classic montada em suporte metálico com rodízios, alimentada por um palete de papel kraft sanfonado e dispensando almofadas de papel para embalagem, em fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/1/e/csm_PP_PP_Classic_CX_machine_0539_1280x580px_EUROPEAN_STAND_756b4e2466.png"
+  },
+  {
+    "file": "pp_pp_grass_classic2_application_6028_box.jpg",
+    "product": "PAPERplus Classic",
+    "kind": "application",
+    "white_background": true,
+    "description": "Visão superior em ângulo de uma caixa de papelão aberta com fundo branco, mostrando almofadas de papel kraft PAPERplus Classic preenchendo o espaço e protegendo uma caixa decorada.",
+    "source": "https://www.storopack.com/fileadmin/_processed_/d/1/csm_PP_PP_Grass_Classic2_application_6028_box_low_res_bcd6764709.jpg"
+  },
+  {
+    "file": "pp_pp_grass_classic2_application_6035_food.jpg",
+    "product": "PAPERplus Classic",
+    "kind": "application",
+    "white_background": true,
+    "description": "Visão superior isométrica em fundo branco de uma caixa de papelão aberta com caixas de cereais/muesli protegidas por preenchimento de papel kraft amassado PAPERplus Classic.",
+    "source": "https://www.storopack.com/fileadmin/_processed_/7/2/csm_PP_PP_Grass_Classic2_application_6035_food_1280x580px_9ca717e4ab.png"
+  },
+  {
+    "file": "pp_pp_grass_classic2_application_6040_bottle.jpg",
+    "product": "PAPERplus Classic",
+    "kind": "application",
+    "white_background": true,
+    "description": "Garrafa com capa de feltro acomodada dentro de uma caixa de papelão aberta, protegida e calçada com papel amassado PAPERplus em fundo branco.",
+    "source": "https://www.storopack.com/fileadmin/_processed_/8/0/csm_PP_PP_Grass_Classic2_application_6040_bottle_1280x580px_25eace1336.png"
+  },
+  {
+    "file": "pp_pp_shooter_application_1939.jpg",
+    "product": "PAPERplus Shooter",
+    "kind": "application",
+    "white_background": true,
+    "description": "Caixa de papelão aberta vista em ângulo superior contra fundo branco, exibindo um pote cilíndrico de suplemento envolvido e protegido por papel kraft amassado para preenchimento de vazios.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/a/6/csm_PP_PP_Shooter_application_1939_1280x580px_e6c8b7ba26.jpg"
+  },
+  {
+    "file": "pp_pp_shooter_application_6046.jpg",
+    "product": "PAPERplus Shooter",
+    "kind": "application",
+    "white_background": true,
+    "description": "Caixa de papelão aberta com fundo branco em ângulo superior, mostrando um produto eletrônico protegido por preenchimento de papel kraft amassado (PAPERplus Shooter).",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/2/d/csm_PP_PP_Shooter_application_6046_1280x580px_2a1a3fd031.jpg"
+  },
+  {
+    "file": "pp_pp_shooter_application_motive2_white_background_01.jpg",
+    "product": "PAPERplus Shooter",
+    "kind": "application",
+    "white_background": true,
+    "description": "Visão superior de uma caixa de papelão aberta contendo produtos eletrônicos embalados com papel kraft de preenchimento PAPERplus Shooter sobre fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/b/3/csm_PP_PP_Shooter_application_motive2_low_res_white_background_01_94d2d05f46.jpg"
+  },
+  {
+    "file": "pp_pp_shooter_consumable_1435.jpg",
+    "product": "PAPERplus Shooter",
+    "kind": "consumable",
+    "white_background": false,
+    "description": "Close-up de tira contínua de papel kraft amassado para preenchimento sobre fundo branco, destacando a textura do material PAPERplus Shooter.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/4/3/csm_PP_PP_Shooter_consumable_1435_low_res_7a2f22e2b6.jpg"
+  },
+  {
+    "file": "pp_pp_shooter_machine_floorstand_motive_1.jpg",
+    "product": "PAPERplus Shooter",
+    "kind": "machine",
+    "white_background": true,
+    "description": "Máquina PAPERplus Shooter montada em suporte móvel com rodízios em fundo branco, sendo alimentada por papel kraft e dispensando material de enchimento amarfanhado, acompanhada de pedal de acionamento.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/3/5/csm_PP_PP_Shooter_machine_floorstand_motive_1_1280x580px_1255dcc972.png"
+  },
+  {
+    "file": "pp_pp_shooter_machine_tablestand_motive_1.jpg",
+    "product": "PAPERplus Shooter",
+    "kind": "machine",
+    "white_background": true,
+    "description": "Máquina PAPERplus Shooter suspensa dispensando papel kraft amassado diretamente para dentro de uma caixa de papelão aberta, sobre fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/5/9/csm_PP_PP_Shooter_machine_tablestand_motive_1_1280x580px_c97e386ad4.png"
+  },
+  {
+    "file": "pp_pp_shooter_paper_pad_consumable_slim.jpg",
+    "product": "PAPERplus Shooter",
+    "kind": "consumable",
+    "white_background": false,
+    "description": "Foto em close-up com fundo branco exibindo uma faixa contínua de papel kraft amassado para proteção e preenchimento (PAPERplus Shooter).",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/4/0/csm_PP_PP_Shooter_paper_pad_consumable_slim_1280x580px_86c80c494a.png"
+  },
+  {
+    "file": "pp_pp_track_application_with_coffee_machine_9603.jpg",
+    "product": "PAPERplus Track",
+    "kind": "application",
+    "white_background": true,
+    "description": "Caixa de papelão aberta vista em ângulo superior, contendo um produto embalado protegido por tiras de papel kraft estruturado PAPERplus Track como calço lateral e superior.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/2/2/csm_PP_PP_Track_application_with_coffee_machine_9603_1280x580px_ede14af942.png"
+  },
+  {
+    "file": "pp_pp_track_application_with_technial_parts_9601.jpg",
+    "product": "PAPERplus Track",
+    "kind": "application",
+    "white_background": true,
+    "description": "Peça metálica pesada protegida por tiras de papel kraft amassado (PAPERplus Track) dispostas em cruz dentro de uma caixa de papelão aberta, em vista aérea inclinada.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/e/1/csm_PP_PP_Track_application_with_technial_parts_9601_low_res_d7e0ef6a4b.jpg"
+  },
+  {
+    "file": "pp_pp_track_application_with_technical_parts_9606.jpg",
+    "product": "PAPERplus Track",
+    "kind": "application",
+    "white_background": true,
+    "description": "Visão superior em perspectiva de um motor elétrico industrial acondicionado dentro de uma caixa de papelão com almofadas de papel kraft (PAPERplus Track), ao lado de uma espiral do mesmo papel protetor sobre fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/5/a/csm_PP_PP_Track_application_with_technical_parts_9606_1280x580px_a703dcf681.png"
+  },
+  {
+    "file": "pp_pp_track_image_motive_2132.jpg",
+    "product": "PAPERplus Track",
+    "kind": "consumable",
+    "white_background": true,
+    "description": "Close-up com profundidade de campo rasa em fundo branco destacando o colchão de papel kraft frisado/amassado PAPERplus Track isolado, sem caixa ou produto protegido.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/a/0/csm_PP_PP_Track_image_motive_2132_low_res_a2db592139.jpg"
+  },
+  {
+    "file": "pp_pp_track_system_with_packing_table_profile_9523.jpg",
+    "product": "PAPERplus Track",
+    "kind": "workstation",
+    "white_background": true,
+    "description": "Estação de trabalho com bancada ergonômica de embalagem e máquina de acolchoamento de papel PAPERplus Track integrada, dispensando almofadas de papel kraft.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/7/a/csm_PP_PP_Track_system_with_packing_table_profile_9523_1280x580px_3b4aee177c.png"
+  },
+  {
+    "file": "pp_fp_application_motive2_freigest.jpg",
+    "product": "FOAMplus Bag Packer 2",
+    "kind": "application",
+    "white_background": true,
+    "description": "Caixa de papelão aberta vista em perspectiva superior contendo um motor industrial metálico devidamente protegido por almofadas de espuma expansiva FOAMplus.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/a/1/csm_PP_FP_application_motive2_freigest_1280x580px_004c67716b.png",
+    "shared_from": "FOAMplus Bag Packer 3"
+  },
+  {
+    "file": "pp_fp_bag_packer3_machine_6327.jpg",
+    "product": "FOAMplus Bag Packer 2",
+    "kind": "machine",
+    "white_background": true,
+    "description": "Visão geral de estúdio da máquina FOAMplus Bag Packer em suporte com rodízios, conectada a dois tambores de produtos químicos sobre palete de contenção em fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/1/9/csm_PP_FP_Bag_Packer3_machine_6327_1280x580px_c46f8e227a.png",
+    "shared_from": "FOAMplus Bag Packer 3"
+  },
+  {
+    "file": "pp_fp_bag_packer3_machine_6336.jpg",
+    "product": "FOAMplus Bag Packer 2",
+    "kind": "machine",
+    "white_background": true,
+    "description": "Operador manuseando a máquina FOAMplus Bag Packer produzindo bolsas de espuma expansiva protetora, conectada a dois tambores de componentes químicos, em estúdio com fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/1/b/csm_PP_FP_Bag_Packer3_machine_6336_1280x580px_b575d28c48.png",
+    "shared_from": "FOAMplus Bag Packer 3"
+  },
+  {
+    "file": "pp_fp_bag_packer_cushion_application.jpg",
+    "product": "FOAMplus Bag Packer 2",
+    "kind": "application",
+    "white_background": true,
+    "description": "Vista superior de uma caixa de papelão aberta contendo uma cuba de cerâmica branca protegida por bolsas de espuma expansiva FOAMplus.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/9/b/csm_PP_FP_Bag_Packer___cushion_application_1280x580px_a1a12af89a.png",
+    "shared_from": "FOAMplus Bag Packer 3"
+  },
+  {
+    "file": "pp_fp_bag_packer_tube_application.jpg",
+    "product": "FOAMplus Bag Packer 2",
+    "kind": "application",
+    "white_background": true,
+    "description": "Painel elétrico embalado dentro de uma caixa de papelão protegido lateralmente e no topo por almofadas tubulares de espuma FOAMplus.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/7/7/csm_PP_FP_Bag_Packer___tube_application_low_res_0cd65c195d.jpg",
+    "shared_from": "FOAMplus Bag Packer 3"
+  },
+  {
+    "file": "pp_ap_wrap_recycle_140d_application_0110.jpg",
+    "kind": "application",
+    "white_background": false,
+    "description": "Tigelas de cerâmica acomodadas em caixa de papelão aberta, protegidas por manta de almofadas de ar AIRplus Wrap azul, vista em ângulo superior com fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/1/f/csm_PP_AP_Wrap_recycle_140d_application_0110_650x295px_afc0072f63.jpg",
+    "product": "AIRplus Wrap (filme 28D)"
+  },
+  {
+    "file": "pp_ap_wrap_recycle_140d_application_0110.jpg",
+    "kind": "application",
+    "white_background": false,
+    "description": "Tigelas de cerâmica acomodadas em caixa de papelão aberta, protegidas por manta de almofadas de ar AIRplus Wrap azul, vista em ângulo superior com fundo branco.",
+    "source": "https://www.storopack.com.br/fileadmin/_processed_/1/f/csm_PP_AP_Wrap_recycle_140d_application_0110_650x295px_afc0072f63.jpg",
+    "product": "AIRplus Bubble",
+    "shared_from": "AIRplus Wrap (filme 28D)"
+  }
+]

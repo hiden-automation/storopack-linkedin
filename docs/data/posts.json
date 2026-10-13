@@ -299,13 +299,15 @@
       "Expedicao"
     ],
     "image_prompt": "Professional industrial photography of an open corrugated cardboard box sitting on an ergonomic packing workstation in an organized logistics warehouse. Inside the open box, a generic item is securely locked and stabilized using only translucent plastic film air pillows (individual rectangular inflated cushions connected in a strip) as void fill. The translucent air cushions are the only protective packaging material inside the box, with absolutely no paper or foam. Each translucent air pillow clearly features a small, discreet Storopack logo printed on its surface. Natural translucent film appearance, clean warehouse background with conveyor rollers, shallow depth of field, no people, no text, no numbers, photorealistic.",
-    "image_path": null,
-    "status": "failed",
+    "image_path": "images/002-02.png",
+    "status": "pending",
     "created_at": "2026-10-10T00:43:48+00:00",
     "decided_at": null,
     "posted_at": null,
     "linkedin_urn": null,
-    "error": "imagem reprovada nas regras de produto após 5 tentativas: Almofadas de ar AIRplus adequadas, porém a impressão do logotipo apresenta variações e pequenas deformações na tipografia."
+    "error": null,
+    "photo": "pp_ap_void_100_recycled_application_0195.jpg",
+    "scene": "A modern packing workstation in an e-commerce fulfillment and shipping center, featuring a clean stainless steel packing table illuminated by bright overhead industrial LED lighting, with a softly blurred warehouse logistics area in the background."
   },
   {
     "id": "002-03",
@@ -330,7 +332,9 @@
     "decided_at": null,
     "posted_at": null,
     "linkedin_urn": null,
-    "error": null
+    "error": null,
+    "photo": "image_slider_ap_bio_hc_16p_consumable_2.jpg",
+    "scene": "A clean, sustainable e-commerce fulfillment workbench made of light natural wood, illuminated by soft overhead daylight and neutral ambient warehouse lighting, with a clean and softly blurred logistics depot background"
   },
   {
     "id": "002-04",
@@ -355,7 +359,9 @@
     "decided_at": null,
     "posted_at": null,
     "linkedin_urn": null,
-    "error": null
+    "error": null,
+    "photo": "pp_pp_shooter_machine_tablestand_motive_1.jpg",
+    "scene": "A clean industrial packaging workstation in a high-volume distribution center, featuring a sturdy steel packing table next to a roller conveyor, illuminated by bright overhead warehouse lighting"
   },
   {
     "id": "002-05",
@@ -379,7 +385,9 @@
     "decided_at": null,
     "posted_at": null,
     "linkedin_urn": null,
-    "error": null
+    "error": null,
+    "photo": "pp_pp_classic_application_motive11.jpg",
+    "scene": "A clean industrial logistics dispatch area with a heavy-duty steel packing workbench, smooth concrete flooring in the background, and soft natural overhead warehouse lighting."
   },
   {
     "id": "002-06",
@@ -397,13 +405,15 @@
       "ProtecaoDeCargas"
     ],
     "image_prompt": "A professional, realistic photograph of an industrial packaging workbench in a modern logistics center. An open cardboard shipping box is positioned on the table, containing ceramic ware securely cushioned and locked in place exclusively by brown kraft paper pads with a regular pleated crumpled pattern. These natural brown kraft paper cushions are the sole packaging material inside the box, filling the surrounding empty spaces. Each brown kraft paper pad features a small, discreet Storopack logo printed on its surface. The compact PAPERplus Track dispenser is mounted beside the workstation. Bright clean industrial lighting, sharp details, no people in close-up, and no text, letters, or numbers on the packaging or machinery.",
-    "image_path": null,
-    "status": "failed",
+    "image_path": "images/002-06.png",
+    "status": "pending",
     "created_at": "2026-10-10T00:43:48+00:00",
     "decided_at": null,
     "posted_at": null,
     "linkedin_urn": null,
-    "error": "imagem reprovada nas regras de produto após 5 tentativas: O material utilizado não corresponde às almofadas plissadas características do PAPERplus Track, apresentando envelopes de papel kraft misturados com papel amassado avulso. Além disso, o logotipo da Storopack está distorcido, com o emblema centralizado incorretamente e grafia fora do padrão oficial."
+    "error": null,
+    "photo": "pp_pp_track_application_with_coffee_machine_9603.jpg",
+    "scene": "A clean industrial packing workbench in an e-commerce fulfillment center, with a smooth wooden worktop under soft, diffused overhead warehouse lighting"
   },
   {
     "id": "002-07",
@@ -427,7 +437,9 @@
     "decided_at": null,
     "posted_at": null,
     "linkedin_urn": null,
-    "error": null
+    "error": null,
+    "photo": "pp_fp_bag_packer3_machine_6327.jpg",
+    "scene": "A modern, well-lit industrial packaging facility with smooth polished light gray concrete floors, clean logistics dispatch area background softly blurred, bright neutral overhead industrial lighting with subtle warm accents, without people, screens, text, or extra packaging clutter."
   },
   {
     "id": "002-08",
@@ -451,7 +463,9 @@
     "decided_at": null,
     "posted_at": null,
     "linkedin_urn": null,
-    "error": null
+    "error": null,
+    "photo": "pp_fp_hand_packer2_application_3.jpg",
+    "scene": "A heavy-duty industrial packaging workbench in a machinery and automotive parts shipping department, with a smooth steel work surface, clean concrete floor, and soft ambient warehouse lighting in the background"
   },
   {
     "id": "002-09",
@@ -470,13 +484,15 @@
       "Armazenagem"
     ],
     "image_prompt": "A professional, realistic photograph in a modern distribution center packaging station. An open corrugated cardboard box sits on a clean packaging workbench. Inside the open box, a heavy industrial metallic component is safely protected and encapsulated exclusively by FOAMplus foam-in-bag cushions: soft, rounded, pillow-shaped cushions of cream off-white expanding polyurethane foam sealed inside thin translucent plastic film bags, with irregular organic shapes that have expanded and conformed tightly around the product contours. A small and discreet Storopack logo is printed on the translucent film surface of each foam cushion. The foam-in-bag cushions are the only protective packaging material inside the box. In the background, the compact FOAMplus Bag Packer 2 machine is mounted neatly, alongside tidy industrial storage racks. Professional warehouse lighting, shallow depth of field, no people in close-up, no text, no numbers.",
-    "image_path": "images/002-09.png",
-    "status": "pending",
+    "image_path": null,
+    "status": "failed",
     "created_at": "2026-10-10T00:43:48+00:00",
     "decided_at": null,
     "posted_at": null,
     "linkedin_urn": null,
-    "error": null
+    "error": "402 RESOURCE_EXHAUSTED. {'error': {'code': 402, 'message': 'Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. ', 'status': 'RESOURCE_EXHAUSTED'}}",
+    "photo": "pp_fp_application_motive2_freigest.jpg",
+    "scene": "A clean industrial packing workbench in a modern manufacturing warehouse, set against a background of high-bay storage racks and polished concrete floors, illuminated by soft overhead LED lighting."
   },
   {
     "id": "002-10",
@@ -494,13 +510,15 @@
       "Intralogistica"
     ],
     "image_prompt": "A realistic photo of an industrial logistics packaging area focusing on an ergonomic box-erecting workstation (blue machine table) where flat cardboard blanks are quickly folded into shipping boxes; no protective material needed in the scene, no screens or labels, clean industrial warehouse background with roller conveyors, soft natural facility lighting, wide shot with no people in close-up, no text, no numbers.",
-    "image_path": "images/002-10.png",
-    "status": "pending",
+    "image_path": null,
+    "status": "failed",
     "created_at": "2026-10-10T00:43:48+00:00",
     "decided_at": null,
     "posted_at": null,
     "linkedin_urn": null,
-    "error": null
+    "error": "402 RESOURCE_EXHAUSTED. {'error': {'code': 402, 'message': 'Your prepayment credits are depleted. Please go to AI Studio at https://ai.studio/projects to manage your project and billing. Learn more at https://ai.google.dev/gemini-api/docs/billing#prepay. ', 'status': 'RESOURCE_EXHAUSTED'}}",
+    "photo": null,
+    "scene": null
   },
   {
     "id": "002-11",
@@ -524,7 +542,9 @@
     "decided_at": null,
     "posted_at": null,
     "linkedin_urn": null,
-    "error": null
+    "error": null,
+    "photo": "p_pl_working_comfort_comfort_close.jpg",
+    "scene": "A modern e-commerce fulfillment dispatch line with an industrial steel roller conveyor, clean light-gray epoxy flooring, and bright, diffuse overhead LED warehouse lighting."
   },
   {
     "id": "002-12",
@@ -549,6 +569,8 @@
     "decided_at": null,
     "posted_at": null,
     "linkedin_urn": null,
-    "error": null
+    "error": null,
+    "photo": "pp_pl_wat_machine_0595.jpg",
+    "scene": "A modern, well-lit e-commerce fulfillment warehouse packing area with clean epoxy flooring and balanced overhead industrial lighting"
   }
 ]
