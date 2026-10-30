@@ -641,9 +641,9 @@
     "photo": "pp_am_void_50_recycled_application_1881.jpg",
     "scene": "A clean industrial packing workbench in a modern e-commerce logistics center, sturdy wooden work surface, soft and bright overhead daylight LED lighting, with softly blurred warehouse storage racks in the background",
     "image_path": "images/003-03.png",
-    "status": "pending",
+    "status": "accepted",
     "created_at": "2026-10-30T12:01:14+00:00",
-    "decided_at": null,
+    "decided_at": "2026-10-30T21:09:47+00:00",
     "posted_at": null,
     "linkedin_urn": null,
     "error": null
