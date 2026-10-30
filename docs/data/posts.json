@@ -666,9 +666,9 @@
     "photo": "pp_pp_classic_cx_application_1709_imageslider_1.jpg",
     "scene": "An automotive manufacturing warehouse shipping area, set on a heavy-duty industrial wooden packaging workbench under bright, clean overhead LED factory lighting with faint steel logistics shelving in the soft-focus background.",
     "image_path": "images/003-04.png",
-    "status": "pending",
+    "status": "accepted",
     "created_at": "2026-10-30T12:01:14+00:00",
-    "decided_at": null,
+    "decided_at": "2026-10-30T21:09:53+00:00",
     "posted_at": null,
     "linkedin_urn": null,
     "error": null
