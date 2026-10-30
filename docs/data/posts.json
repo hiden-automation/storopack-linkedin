@@ -841,9 +841,9 @@
     "photo": "p_pl_working_comfort_comfort_close.jpg",
     "scene": "Modern industrial packaging and fulfillment center shipping area, clean polished concrete flooring, conveyor line area illuminated by neutral overhead LED lighting, minimal and tidy warehouse environment",
     "image_path": "images/003-11.png",
-    "status": "pending",
+    "status": "accepted",
     "created_at": "2026-10-30T12:01:14+00:00",
-    "decided_at": null,
+    "decided_at": "2026-10-30T21:11:21+00:00",
     "posted_at": null,
     "linkedin_urn": null,
     "error": null
