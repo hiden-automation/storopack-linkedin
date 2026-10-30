@@ -616,9 +616,9 @@
     "photo": "pp_ap_wrap_recycle_140d_application_0110.jpg",
     "scene": "A heavy-duty industrial shipping workbench with a brushed metal surface in an organized manufacturing dispatch warehouse, illuminated by clear overhead industrial lighting with subtle factory shelving in the soft-focus background.",
     "image_path": "images/003-02.png",
-    "status": "pending",
+    "status": "rejected",
     "created_at": "2026-10-30T12:01:14+00:00",
-    "decided_at": null,
+    "decided_at": "2026-10-30T21:09:39+00:00",
     "posted_at": null,
     "linkedin_urn": null,
     "error": null
