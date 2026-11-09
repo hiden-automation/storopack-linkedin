@@ -591,11 +591,11 @@
     "photo": "pp_ap_cushion_16p_100_recycled_application.jpg",
     "scene": "On a clean industrial wood workbench in a modern fulfillment center, with soft ambient warehouse lighting and a clean, clutter-free packing station background.",
     "image_path": "images/003-01.png",
-    "status": "accepted",
+    "status": "posted",
     "created_at": "2026-10-30T12:01:14+00:00",
     "decided_at": "2026-10-30T21:09:03+00:00",
-    "posted_at": null,
-    "linkedin_urn": null,
+    "posted_at": "2026-11-09T12:00:17+00:00",
+    "linkedin_urn": "urn:li:share:7525527679966605312",
     "error": null
   },
   {
