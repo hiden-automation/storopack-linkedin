@@ -716,11 +716,11 @@
     "photo": "paperbubble_endless_application.jpg",
     "scene": "A clean wooden packing workbench in a modern e-commerce fulfillment center, bathed in soft neutral overhead lighting with a softly blurred warehouse background",
     "image_path": "images/003-06.png",
-    "status": "accepted",
+    "status": "posted",
     "created_at": "2026-10-30T12:01:14+00:00",
     "decided_at": "2026-10-30T21:10:13+00:00",
-    "posted_at": null,
-    "linkedin_urn": null,
+    "posted_at": "2026-11-18T12:00:23+00:00",
+    "linkedin_urn": "urn:li:share:7528789196312899584",
     "error": null
   },
   {
