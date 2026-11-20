@@ -741,11 +741,11 @@
     "photo": "pp_fp_bag_packer_tube_application.jpg",
     "scene": "A clean, modern industrial packing and dispatch area with a heavy-duty steel workbench, polished concrete flooring, and bright overhead LED warehouse lighting in the background, out of focus.",
     "image_path": "images/003-07.png",
-    "status": "accepted",
+    "status": "posted",
     "created_at": "2026-10-30T12:01:14+00:00",
     "decided_at": "2026-10-30T21:10:26+00:00",
-    "posted_at": null,
-    "linkedin_urn": null,
+    "posted_at": "2026-11-20T12:00:15+00:00",
+    "linkedin_urn": "urn:li:share:7529513938833809408",
     "error": null
   },
   {
