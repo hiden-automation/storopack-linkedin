@@ -791,11 +791,11 @@
     "photo": "pp_fp_bag_packer_cushion_application.jpg",
     "scene": "A modern warehouse packing station on a sturdy stainless steel work table, illuminated by clean neutral industrial overhead lighting, with blurred storage racks in the background",
     "image_path": "images/003-09.png",
-    "status": "accepted",
+    "status": "posted",
     "created_at": "2026-10-30T12:01:14+00:00",
     "decided_at": "2026-10-30T21:10:59+00:00",
-    "posted_at": null,
-    "linkedin_urn": null,
+    "posted_at": "2026-11-25T12:41:48+00:00",
+    "linkedin_urn": "urn:li:share:7531336336293785600",
     "error": null
   },
   {
